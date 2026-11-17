@@ -16,6 +16,10 @@ jobs:
         with:
           node-version: '24'
       - run: npm install --no-audit --no-fund
+      - name: Vérifier les dépendances figées
+        run: |
+          npm ci --no-audit --no-fund
+          node -e "console.log('LOCK_BEGIN' + JSON.stringify(require('./package-lock.json')) + 'LOCK_END')"
       - run: npm run build
       - run: npm install --no-save --no-audit --no-fund playwright-core@1.56.1
       - name: Tester la version de production sur ordinateur et téléphone
@@ -48,13 +52,14 @@ jobs:
             assert.equal(await page.locator('.caption strong').innerText(), '2/2');
             await page.locator('summary').click();
             await page.locator('.index-grid button').first().click();
+            await page.locator('.projects li').first().waitFor();
             assert.equal(await page.locator('.projects li').count(), 4);
             await page.getByRole('button', { name:'Fermer la fenêtre' }).click();
             await page.locator('dialog').waitFor({state:'detached'});
             await page.getByRole('button', {name:'Contact',exact:false}).first().click();
             assert.equal(await page.getByRole('link',{name:'Mon profil GitHub'}).getAttribute('href'), 'https://github.com/Atemani');
             await page.goto('http://127.0.0.1:4173/#competences');
-            await page.getByRole('button',{name:'Podcast'}).click();
+            await page.getByRole('dialog').getByRole('button',{name:'Podcast',exact:true}).click();
             await page.getByRole('heading',{name:'Podcast',exact:true}).waitFor();
             await page.close();
           }
