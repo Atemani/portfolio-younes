@@ -13,6 +13,6 @@ Portfolio interactif en français, développé avec React et Vite. La photo du b
 
 ## Modifier depuis le navigateur
 
-Ouvrir le dépôt dans GitHub et appuyer sur la touche `.` pour utiliser l’éditeur web. Les titres, lectures, textes des compétences et positions des objets se trouvent dans `src/content.js`. Les coordonnées sont des pourcentages de la photo entière. Le décor se trouve dans `public/images/atelier.webp`.
+Ouvrir le dépôt dans GitHub et appuyer sur la touche `.` pour utiliser l’éditeur web. Les titres, lectures, textes des compétences et positions des objets se trouvent dans `src/content.js`. Les coordonnées sont des pourcentages de la photo entière. La photo source se trouve dans `assets/bureau.png`. Chaque compilation crée sa version WebP optimisée.
 
 Sur téléphone, le bureau défile horizontalement. L’index donne accès à tous les objets. Les fenêtres acceptent Échap, le bouton de fermeture et des liens directs tels que `/#competences`. Le café et les lectures comptent comme deux secrets pendant la visite.

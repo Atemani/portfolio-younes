@@ -11,7 +11,6 @@ for (const [width,height] of [[1440,900],[768,1024],[390,844],[320,670],[1920,72
   assert.equal(await page.locator('.scene img').evaluate(img => img.naturalWidth),1671);
   assert.equal(await page.locator('.hotspot').count(),8);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-  if (width === 1440 || width === 390) await page.screenshot({path:'.review/'+width+'.jpg',type:'jpeg',quality:85});
   for (const key of pages) {
     const spot=page.locator('[data-object="'+key+'"]');
     await spot.click();
