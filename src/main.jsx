@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { objects, practices, projects, readings } from "./content.js";
+import { objects, practices, projects, readings, skills } from "./content.js";
 import "./style.css";
 
 const sections = { projets: "Projets", competences: "Compétences", apropos: "À propos", contact: "Contact" };
-const titles = { ...Object.fromEntries(objects.map(item => [item.id, item.title])), apropos: "À propos", contact: "Contact" };
+const titles = { ...Object.fromEntries(skills), index: "Les objets du bureau", ...Object.fromEntries(objects.map(item => [item.id, item.title])), apropos: "À propos", contact: "Contact" };
 const secrets = objects.filter(item => item.secret);
 const readRoute = () => {
   const key = window.location.hash.slice(1);
   return Object.hasOwn(titles, key) ? key : null;
 };
 
-function PanelBody({ page, go }) {
+function PanelBody({ page, go, found }) {
+  if (page === "index") return <div className="directory">{objects.map(item =>
+    <button key={item.id} onClick={() => go(item.id)}>
+      <span>{item.object}<small>{item.secret && !found.has(item.id) ? "Objet secret" : item.title}</small></span>
+      <span aria-hidden="true">↗</span>
+    </button>
+  )}</div>;
   if (page === "projets") return <>
     <p className="lede">Quatre projets de mon portfolio.</p>
     <ul className="projects">{projects.map((name, i) =>
@@ -19,9 +25,9 @@ function PanelBody({ page, go }) {
     )}</ul>
   </>;
   if (page === "competences") return <>
-    <p className="lede">De la première note dans un carnet au contenu prêt à diffuser.</p>
-    <div className="choices">{["strategie", "podcast", "creation"].map(id =>
-      <button key={id} onClick={() => go(id)}><span>{titles[id]}</span><span aria-hidden="true">↗</span></button>
+    <p className="lede">Du cadrage d’une idée à sa mise en ligne.</p>
+    <div className="choices">{skills.map(([id, label]) =>
+      <button key={id} onClick={() => go(id)}><span>{label}</span><span aria-hidden="true">↗</span></button>
     )}</div>
   </>;
   if (practices[page]) return <>
@@ -29,7 +35,14 @@ function PanelBody({ page, go }) {
     <dl>{practices[page].steps.map(([title, copy]) =>
       <div key={title}><dt>{title}</dt><dd>{copy}</dd></div>
     )}</dl>
+    {page === "creation" && <button className="text-link" onClick={() => go("podcast")}>Production de podcasts ↗</button>}
     <button className="text-link" onClick={() => go("competences")}>← Toutes les compétences</button>
+  </>;
+  if (page === "inspirations") return <>
+    <p className="lede">Sur mon bureau, les mangas et les romans côtoient des livres de stratégie et de communication.</p>
+    <dl><div><dt>Raconter</dt><dd>Comment un personnage, un décor ou une image donnent envie de connaître la suite.</dd></div>
+    <div><dt>Aller à l’essentiel</dt><dd>Comment choisir un angle et dire une idée en peu de mots.</dd></div></dl>
+    <button className="primary" onClick={() => go("lectures")}>Parcourir ma pile de livres ↗</button>
   </>;
   if (page === "lectures") return <>
     <p className="lede">Les quatre titres que je garde sur mon bureau.</p>
@@ -37,14 +50,13 @@ function PanelBody({ page, go }) {
       <li key={title}><strong>{title}</strong><span>{category}</span></li>
     )}</ul>
   </>;
-  if (page === "cafe") return <><div className="coffee-art" aria-hidden="true">☕</div><p className="lede">Je suis un grand fan de café.</p><p>Vous avez trouvé la pause café du bureau.</p></>;
-  if (page === "billet") return <><div className="ticket"><span>Carte d’embarquement</span><strong>Maroc <i aria-hidden="true">✈</i></strong></div><p className="lede">Un billet d’avion se cachait dans le petit coffre.</p></>;
+  if (page === "cafe") return <><div className="coffee-detail" aria-hidden="true"></div><p className="lede">Je suis un grand fan de café.</p></>;
   if (page === "apropos") return <><p className="lede">Moi, c’est Younes Atemani.</p><p>Mon bureau réunit ce que j’aime faire : organiser un projet, préparer un podcast et donner forme à des contenus. Chaque objet raconte une partie de ce travail.</p><button className="primary" onClick={() => go("projets")}>Découvrir mes projets <span aria-hidden="true">↗</span></button></>;
   if (page === "contact") return <><p className="lede">Retrouvez-moi sur GitHub.</p><a className="primary" href="https://github.com/Atemani">Mon profil GitHub <span aria-hidden="true">↗</span></a></>;
   return null;
 }
 
-function Panel({ page, go, close }) {
+function Panel({ page, go, close, found }) {
   const dialog = useRef(null);
   const heading = useRef(null);
   useEffect(() => {
@@ -74,40 +86,50 @@ function Panel({ page, go, close }) {
     </div>
     <div className="panel-content">
       <h2 tabIndex="-1" id="panel-title" ref={heading}>{titles[page]}</h2>
-      <PanelBody page={page} go={go} />
+      <PanelBody page={page} go={go} found={found} />
     </div>
   </dialog>;
 }
 
 function Desk({ go, found }) {
   const viewport = useRef(null);
+  const scene = useRef(null);
   useEffect(() => {
     const el = viewport.current;
-    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    // Preserve the area being explored when the viewport changes orientation.
+    let center = 0.5;
+    const remember = () => { center = (el.scrollLeft + el.clientWidth / 2) / el.scrollWidth; };
+    const position = () => { el.scrollLeft = center * el.scrollWidth - el.clientWidth / 2; };
+    position();
+    const observer = new ResizeObserver(position);
+    observer.observe(el);
+    observer.observe(scene.current);
+    el.addEventListener("scroll", remember, { passive: true });
+    return () => { observer.disconnect(); el.removeEventListener("scroll", remember); };
   }, []);
-  return <section className="desk" aria-label="Bureau interactif">
-    <div className="viewport" ref={viewport} role="region" aria-label="Décor du bureau, défilement horizontal sur mobile" tabIndex="0">
-      <div className="scene">
-        <img src="/images/bureau.jpg" width="1672" height="941" alt="Un bureau éclairé par une lampe, avec deux écrans, un microphone et des objets à explorer." fetchPriority="high" />
-        {objects.map(item => <button key={item.id} onClick={() => go(item.id)}
-          aria-label={item.secret ? "Explorer l’objet : " + item.object : item.object + " — " + item.title}
-          className={["hotspot", item.label ? "labelled" : "", item.secret ? "secret" : "", found.has(item.id) ? "found" : "", item.x > 89 ? "right" : ""].join(" ")}
+  return <>
+    <section className="viewport" ref={viewport} aria-label="Bureau interactif, défilement horizontal si nécessaire" tabIndex="0">
+      <div className="scene" ref={scene}>
+        <img src="/images/atelier.webp" width="1671" height="941" alt="Bureau éclairé par une lampe ambrée. À gauche, un micro et un portable. Au centre, un écran et une tasse. À droite, des livres, un carnet et un casque." fetchPriority="high" />
+        {objects.map(item => <button key={item.id} data-object={item.id} onClick={() => go(item.id)}
+          aria-label={item.secret ? "Explorer : " + item.object : item.object + " — " + item.title}
+          className={["hotspot", item.secret ? "secret" : "", found.has(item.id) ? "found" : "", item.x > 88 ? "right" : ""].join(" ")}
           style={{ left: item.x + "%", top: item.y + "%", width: item.w + "%", height: item.h + "%" }}>
-          <span className="pin" aria-hidden="true">{item.secret ? (found.has(item.id) ? "✓" : "•") : "+"}</span>
           <span className="tag" aria-hidden="true">{item.secret ? item.object : item.title}</span>
         </button>)}
       </div>
+    </section>
+    <span className="swipe-hint" aria-hidden="true">↔ Faites glisser le bureau</span>
+    <div className="scene-footer">
+      <div className="intro"><h1>Bienvenue dans mon <em>univers.</em></h1>
+        <p>Stratégie, communication, création digitale et automatisation.<br />Je transforme les idées en projets concrets.</p>
+      </div>
+      <div className="explore">
+        <button className="index-button" onClick={() => go("index")}><span className="grid-icon" aria-hidden="true"></span> Explorer les objets <span aria-hidden="true">↗</span></button>
+        <span className="count" aria-live="polite"><i aria-hidden="true"></i> Secrets <b>{found.size} / {secrets.length}</b></span>
+      </div>
     </div>
-    <div className="caption">
-      <span><b className="legend-dot"></b> Objet à explorer</span>
-      <span aria-live="polite"><b className="legend-dot gold"></b> Secrets découverts <strong>{found.size}/{secrets.length}</strong></span>
-    </div>
-    <details className="index"><summary>Index des objets<span aria-hidden="true">⌄</span></summary>
-      <div className="index-grid">{objects.map(item =>
-        <button key={item.id} onClick={() => go(item.id)}><small>{item.object}</small><span>{item.secret && !found.has(item.id) ? "Découvrir le secret" : item.title} ↗</span></button>
-      )}</div>
-    </details>
-  </section>;
+  </>;
 }
 
 function App() {
@@ -138,20 +160,15 @@ function App() {
   return <>
     <a href="#principal" className="skip">Aller au bureau</a>
     <header><div className="shell header-inner">
-      <a className="identity" href="./"><span className="brand" aria-hidden="true">ya.</span> Younes Atemani</a>
+      <a className="identity" href="./"><svg className="signature" aria-hidden="true" viewBox="0 0 40 32" fill="none"><path d="m2 4 7 14L20 4M9 18l-3 9M15 27 29 4l8 23M21 18h12" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/></svg> Younes Atemani</a>
       <nav aria-label="Navigation principale">{Object.entries(sections).map(([id, name]) =>
         <button className={id === "contact" ? "contact" : ""} key={id} onClick={() => go(id)}>{name}{id === "contact" && <span aria-hidden="true"> ↗</span>}</button>
       )}</nav>
     </div></header>
-    <main className="shell" id="principal">
-      <div className="intro"><div><p className="kicker"><span></span> Portfolio interactif</p>
-        <h1>Le bureau <em>de Younes.</em></h1></div>
-        <p className="instruction">Explorez les objets de mon bureau pour découvrir mes projets, mes compétences et quelques secrets.</p>
-      </div>
-      <p className="pan-hint">Faites glisser le bureau pour l’explorer <span aria-hidden="true">↔</span></p>
+    <main id="principal" tabIndex="-1">
       <Desk go={go} found={found} />
     </main>
-    {page && <Panel page={page} go={go} close={close} />}
+    {page && <Panel page={page} go={go} close={close} found={found} />}
   </>;
 }
 
