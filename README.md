@@ -1,5 +1,7 @@
 # Le bureau de Younes Atemani
 
+[Ouvrir le portfolio interactif](https://portfolio-younes.pages.dev/)
+
 Portfolio interactif en français, développé avec React et Vite. La photo du bureau, les styles et les dépendances de production sont servis par le même site statique.
 
 ## Publier sur Cloudflare Pages
