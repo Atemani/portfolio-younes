@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { objects, practices, projects, readings, skills } from "./content.js";
+import "@fontsource/montserrat/latin-400.css";
+import "@fontsource/montserrat/latin-500.css";
+import "@fontsource/montserrat/latin-600.css";
+import "@fontsource/montserrat/latin-700.css";
 import "./style.css";
 
 const sections = { projets: "Projets", competences: "Compétences", apropos: "À propos", contact: "Contact" };
@@ -115,7 +119,7 @@ function Desk({ go, found }) {
           aria-label={item.secret ? "Explorer : " + item.object : item.object + " — " + item.title}
           className={["hotspot", item.secret ? "secret" : "", found.has(item.id) ? "found" : "", item.x > 88 ? "right" : ""].join(" ")}
           style={{ left: item.x + "%", top: item.y + "%", width: item.w + "%", height: item.h + "%" }}>
-          <span className="tag" aria-hidden="true">{item.secret ? item.object : item.title}</span>
+          <span className="tag" aria-hidden="true">{item.secret ? item.object : item.label}</span>
         </button>)}
       </div>
     </section>
