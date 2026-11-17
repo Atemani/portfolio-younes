@@ -19,7 +19,7 @@ function PanelBody({ page, go, found }) {
   if (page === "index") return <div className="directory">{objects.map(item =>
     <button key={item.id} onClick={() => go(item.id)}>
       <span>{item.object}<small>{item.secret && !found.has(item.id) ? "Objet secret" : item.title}</small></span>
-      <span aria-hidden="true">↗</span>
+     
     </button>
   )}</div>;
   if (page === "projets") return <>
@@ -31,7 +31,7 @@ function PanelBody({ page, go, found }) {
   if (page === "competences") return <>
     <p className="lede">Du cadrage d’une idée à sa mise en ligne.</p>
     <div className="choices">{skills.map(([id, label]) =>
-      <button key={id} onClick={() => go(id)}><span>{label}</span><span aria-hidden="true">↗</span></button>
+      <button key={id} onClick={() => go(id)}><span>{label}</span></button>
     )}</div>
   </>;
   if (practices[page]) return <>
@@ -39,14 +39,14 @@ function PanelBody({ page, go, found }) {
     <dl>{practices[page].steps.map(([title, copy]) =>
       <div key={title}><dt>{title}</dt><dd>{copy}</dd></div>
     )}</dl>
-    {page === "creation" && <button className="text-link" onClick={() => go("podcast")}>Production de podcasts ↗</button>}
-    <button className="text-link" onClick={() => go("competences")}>← Toutes les compétences</button>
+    {page === "creation" && <button className="text-link" onClick={() => go("podcast")}>Production de podcasts</button>}
+    <button className="text-link" onClick={() => go("competences")}>Toutes les compétences</button>
   </>;
   if (page === "inspirations") return <>
     <p className="lede">Sur mon bureau, les mangas et les romans côtoient des livres de stratégie et de communication.</p>
     <dl><div><dt>Raconter</dt><dd>Comment un personnage, un décor ou une image donnent envie de connaître la suite.</dd></div>
     <div><dt>Aller à l’essentiel</dt><dd>Comment choisir un angle et dire une idée en peu de mots.</dd></div></dl>
-    <button className="primary" onClick={() => go("lectures")}>Parcourir ma pile de livres ↗</button>
+    <button className="primary" onClick={() => go("lectures")}>Parcourir ma pile de livres</button>
   </>;
   if (page === "lectures") return <>
     <p className="lede">Les quatre titres que je garde sur mon bureau.</p>
@@ -55,8 +55,8 @@ function PanelBody({ page, go, found }) {
     )}</ul>
   </>;
   if (page === "cafe") return <><div className="coffee-detail" aria-hidden="true"></div><p className="lede">Je suis un grand fan de café.</p></>;
-  if (page === "apropos") return <><p className="lede">Moi, c’est Younes Atemani.</p><p>Mon bureau réunit ce que j’aime faire : organiser un projet, préparer un podcast et donner forme à des contenus. Chaque objet raconte une partie de ce travail.</p><button className="primary" onClick={() => go("projets")}>Découvrir mes projets <span aria-hidden="true">↗</span></button></>;
-  if (page === "contact") return <><p className="lede">Retrouvez-moi sur GitHub.</p><a className="primary" href="https://github.com/Atemani">Mon profil GitHub <span aria-hidden="true">↗</span></a></>;
+  if (page === "apropos") return <><p className="lede">Moi, c’est Younes Atemani.</p><p>Mon bureau réunit ce que j’aime faire : organiser un projet, préparer un podcast et donner forme à des contenus. Chaque objet raconte une partie de ce travail.</p><button className="primary" onClick={() => go("projets")}>Découvrir mes projets</button></>;
+  if (page === "contact") return <><p className="lede">Retrouvez-moi sur GitHub.</p><a className="primary" href="https://github.com/Atemani">Mon profil GitHub</a></>;
   return null;
 }
 
@@ -123,13 +123,13 @@ function Desk({ go, found }) {
         </button>)}
       </div>
     </section>
-    <span className="swipe-hint" aria-hidden="true">↔ Faites glisser le bureau</span>
+    <span className="swipe-hint" aria-hidden="true">Faites glisser le bureau</span>
     <div className="scene-footer">
       <div className="intro"><h1>Bienvenue dans mon <em>univers.</em></h1>
         <p>Stratégie, communication, création digitale et automatisation.<br />Je transforme les idées en projets concrets.</p>
       </div>
       <div className="explore">
-        <button className="index-button" onClick={() => go("index")}><span className="grid-icon" aria-hidden="true"></span> Explorer les objets <span aria-hidden="true">↗</span></button>
+        <button className="index-button" onClick={() => go("index")}><span className="grid-icon" aria-hidden="true"></span> Explorer les objets</button>
         <span className="count" aria-live="polite"><i aria-hidden="true"></i> Secrets <b>{found.size} / {secrets.length}</b></span>
       </div>
     </div>
@@ -166,7 +166,7 @@ function App() {
     <header><div className="shell header-inner">
       <a className="identity" href="./"><svg className="signature" aria-hidden="true" viewBox="0 0 40 32" fill="none"><path d="m2 4 7 14L20 4M9 18l-3 9M15 27 29 4l8 23M21 18h12" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/></svg> Younes Atemani</a>
       <nav aria-label="Navigation principale">{Object.entries(sections).map(([id, name]) =>
-        <button className={id === "contact" ? "contact" : ""} key={id} onClick={() => go(id)}>{name}{id === "contact" && <span aria-hidden="true"> ↗</span>}</button>
+        <button className={id === "contact" ? "contact" : ""} key={id} onClick={() => go(id)}>{name}</button>
       )}</nav>
     </div></header>
     <main id="principal" tabIndex="-1">
