@@ -1,17 +1,42 @@
-export const projects = ["Lin&Lock", "Dieuzy", "Dynam8", "MochiAuto"];
+export const projects = ["Lin&Lock", "Dieuzy", "Dynam8 Services", "MochiAuto"];
 
+// Positions mesurées sur la photo entière (1671 × 941), en pourcentage.
 export const objects = [
-  { id: "projets", object: "Grand écran", title: "Réalisations", x: 54, y: 36, w: 31, h: 29, label: true },
-  { id: "competences", object: "Portable", title: "Compétences", x: 29, y: 55, w: 19, h: 23, label: true },
-  { id: "podcast", object: "Microphone", title: "Podcast", x: 11, y: 60, w: 7, h: 20 },
-  { id: "creation", object: "Casque audio", title: "Audiovisuel", x: 95, y: 68, w: 9, h: 18 },
-  { id: "strategie", object: "Carnet", title: "Stratégie", x: 73, y: 75, w: 15, h: 12 },
-  { id: "lectures", object: "Livres", title: "Lectures", x: 78, y: 56, w: 10, h: 16 },
-  { id: "cafe", object: "Tasse", title: "La pause café", x: 49, y: 73, w: 8, h: 13, secret: true },
-  { id: "billet", object: "Petit coffre", title: "Un billet pour le Maroc", x: 68, y: 61, w: 5, h: 6, secret: true }
+  { id: "projets", object: "Grand écran", title: "Mes réalisations", x: 54.5, y: 38.3, w: 31, h: 32 },
+  { id: "competences", object: "Ordinateur portable", title: "Compétences et prestations", x: 29.1, y: 58.5, w: 20, h: 26 },
+  { id: "podcast", object: "Microphone", title: "Production de podcasts", x: 11.4, y: 61, w: 5.6, h: 21 },
+  { id: "creation", object: "Casque audio", title: "Création de contenus et vidéo", x: 95.2, y: 66, w: 8.3, h: 23 },
+  { id: "strategie", object: "Carnet", title: "Stratégie et gestion de projet", x: 73.6, y: 74, w: 14.8, h: 13.5 },
+  { id: "inspirations", object: "Pile de livres", title: "Mes inspirations", x: 77, y: 55, w: 11.5, h: 12.2 },
+  { id: "cafe", object: "Tasse de café", title: "La pause café", x: 48.4, y: 73.6, w: 7.8, h: 12, secret: true },
+  { id: "lectures", object: "Tome du bas", title: "Mes lectures préférées", x: 80.5, y: 63.8, w: 4.5, h: 4, secret: true }
+];
+
+export const skills = [
+  ["strategie", "Stratégie & développement"],
+  ["gestion", "Gestion de projet"],
+  ["web", "Création web & e-commerce"],
+  ["creation", "Communication, contenus & stratégie YouTube"],
+  ["automatisation", "Intelligence artificielle & automatisation"],
+  ["projets", "Réalisations professionnelles"]
 ];
 
 export const practices = {
+  gestion: {
+    intro: "Faire avancer un projet en gardant visibles les décisions, les étapes et les responsabilités.",
+    steps: [["Prioriser", "Distinguer ce qui conditionne la livraison de ce qui peut attendre."],
+      ["Coordonner", "Relier chaque livrable à une personne, une échéance et un critère de validation."]]
+  },
+  web: {
+    intro: "Concevoir un parcours clair, de la première visite à la prise de contact ou à la commande.",
+    steps: [["Structurer", "Organiser les contenus et les pages autour du besoin du visiteur."],
+      ["Vérifier", "Parcourir les étapes sur téléphone et ordinateur pour repérer les points de friction."]]
+  },
+  automatisation: {
+    intro: "Identifier les tâches répétitives qui méritent d’être simplifiées.",
+    steps: [["Observer", "Décrire le geste manuel, ses entrées et le résultat attendu."],
+      ["Contrôler", "Prévoir une validation humaine lorsque le résultat demande du jugement."]]
+  },
   podcast: {
     intro: "Un bon épisode commence bien avant d’allumer le micro.",
     steps: [["Préparer", "Trouver l’angle de l’épisode et construire une trame qui laisse de la place à la conversation."],
@@ -22,7 +47,7 @@ export const practices = {
     intro: "Trouver le format qui rend une idée claire, à l’image comme au son.",
     steps: [["Écrire", "Partir du message et du public pour choisir un format et un ton."],
       ["Composer", "Faire dialoguer les images, la voix et les silences."],
-      ["Adapter", "Décliner le contenu selon le support de diffusion."]]
+      ["Diffuser", "Sur YouTube, travailler ensemble la promesse du titre, la miniature et les premières secondes. Adapter ensuite le montage au support."]]
   },
   strategie: {
     intro: "Avant les outils, il y a un objectif à formuler et des priorités à choisir.",
