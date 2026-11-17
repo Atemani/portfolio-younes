@@ -55,7 +55,7 @@ main { position: relative; isolation: isolate; min-height: var(--frame); backgro
 .secret .tag { opacity: 0; visibility: hidden; bottom: 50%; }
 .hotspot:is(:hover,:focus-visible) { z-index: 1; }
 .hotspot:is(:hover,:focus-visible) .tag { opacity: 1; visibility: visible; }
-.hotspot.right .tag { left: auto; right: 0; transform: none; }
+.hotspot.right .tag { left: 0; right: auto; transform: translateX(-50%); pointer-events: auto; }
 .secret::before, .count i { display: block; width: 7px; height: 7px; background: #ffcc55; border-radius: 50%; box-shadow: 0 0 0 3px #3827097a, 0 0 7px #ffce6880; }
 .secret::before { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); }
 .secret.found::before { background: #3a2c17; border: 1px solid var(--amber); }
