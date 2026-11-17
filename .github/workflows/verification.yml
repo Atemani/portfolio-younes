@@ -1,0 +1,63 @@
+name: Vérifier le portfolio
+on:
+  push:
+    branches: [verification-v1]
+permissions:
+  contents: read
+jobs:
+  navigateur:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - run: npm install --no-save --no-audit --no-fund playwright-core@1.56.1
+      - name: Tester la version de production sur ordinateur et téléphone
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 &
+          for attempt in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { chromium } from 'playwright-core';
+          const browser = await chromium.launch({channel: 'chrome'});
+          const errors = [];
+          for (const width of [1440, 390]) {
+            const page = await browser.newPage({ viewport: { width, height: 900 } });
+            page.on('pageerror', error => errors.push(error.message));
+            await page.goto('http://127.0.0.1:4173/');
+            await page.waitForSelector('.hotspot');
+            assert.equal(await page.locator('.hotspot').count(), 8);
+            assert.ok(await page.locator('.scene img').evaluate(img => img.complete && img.naturalWidth > 1000));
+            assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+            for (const [index, title] of ['Réalisations','Compétences','Podcast','Audiovisuel','Stratégie','Lectures','La pause café','Un billet pour le Maroc'].entries()) {
+              await page.locator('.hotspot').nth(index).click();
+              await page.getByRole('heading', { name: title, exact: true }).waitFor();
+              await page.keyboard.press('Escape');
+              await page.locator('dialog').waitFor({state:'detached'});
+            }
+            assert.equal(await page.locator('.caption strong').innerText(), '2/2');
+            await page.locator('summary').click();
+            await page.locator('.index-grid button').first().click();
+            assert.equal(await page.locator('.projects li').count(), 4);
+            await page.getByRole('button', { name:'Fermer la fenêtre' }).click();
+            await page.locator('dialog').waitFor({state:'detached'});
+            await page.getByRole('button', {name:'Contact',exact:false}).first().click();
+            assert.equal(await page.getByRole('link',{name:'Mon profil GitHub'}).getAttribute('href'), 'https://github.com/Atemani');
+            await page.goto('http://127.0.0.1:4173/#competences');
+            await page.getByRole('button',{name:'Podcast'}).click();
+            await page.getByRole('heading',{name:'Podcast',exact:true}).waitFor();
+            await page.close();
+          }
+          await browser.close();
+          assert.deepEqual(errors, []);
+          JS
