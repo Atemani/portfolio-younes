@@ -127,7 +127,8 @@ function Desk({ go, found }) {
           aria-label={item.secret ? "Explorer : " + item.object : item.object + " — " + item.title}
           className={["hotspot", item.secret ? "secret" : "", found.has(item.id) ? "found" : "", item.x > 88 ? "right" : ""].join(" ")}
           style={{ left: item.x + "%", top: item.y + "%", width: item.w + "%", height: item.h + "%" }}>
-          {!item.secret && <span className="tag" aria-hidden="true"><small>{dossiers[item.id]}</small>{item.label}</span>}
+          <span className="marker" aria-hidden="true"></span>
+          <span className="tag" aria-hidden="true">{item.secret ? item.title : (item.id === "creation" ? "Création vidéo" : item.label)}</span>
         </button>)}
       </div>
     </section>
@@ -140,7 +141,11 @@ function Desk({ go, found }) {
       <div className="explore">
         <p className="explore-hint">Les objets racontent le parcours.</p>
         <button className="index-button" onClick={() => go("index")}>Explorer les objets</button>
-        <span className="count" aria-live="polite"><i aria-hidden="true"></i> Secrets découverts <b>{found.size} / {secrets.length}</b></span>
+        <span className="count" aria-live="polite">Secrets découverts <b>{found.size} / {secrets.length}</b></span>
+        <ul className="interaction-legend" aria-label="Légende des points interactifs">
+          <li><i className="legend-dot" aria-hidden="true"></i>Sections à explorer</li>
+          <li><i className="legend-dot secret-dot" aria-hidden="true"></i>Secrets à découvrir</li>
+        </ul>
       </div>
     </div>
   </>;
