@@ -80,7 +80,7 @@ for(const [width,height] of [[1440,900],[1920,1080],[1920,720],[768,1024],[390,8
  assert.match(await page.locator('.count').innerText(),/4\s*\/\s*4/);
  await page.getByRole('button',{name:'Explorer les objets',exact:true}).click();
  assert.equal(await page.locator('.directory button').count(),8);
- await page.locator('.directory button').getByText('Stratégie YouTube',{exact:true}).click();
+ await page.locator('.directory').getByRole('button',{name:/Stratégie YouTube/}).click();
  await page.getByRole('heading',{name:'Stratégie YouTube',exact:true}).waitFor();
  assert.match(await page.locator('dialog').innerText(),/CTR/);
  await page.keyboard.press('Escape');

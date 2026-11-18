@@ -116,7 +116,8 @@ function Desk({ go, found }) {
   useEffect(() => {
     const el = viewport.current;
     // Preserve the area being explored when the viewport changes orientation.
-    let center = deskImage.initialX;
+    const compact = window.matchMedia("(max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px)").matches;
+    let center = compact ? deskImage.initialX : 0.5;
     const remember = () => { center = (el.scrollLeft + el.clientWidth / 2) / el.scrollWidth; };
     const position = () => { el.scrollLeft = center * el.scrollWidth - el.clientWidth / 2; };
     position();
