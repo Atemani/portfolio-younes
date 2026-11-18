@@ -42,6 +42,12 @@ for(const [width,height] of [[1440,900],[1920,1080],[1920,720],[768,1024],[390,8
    assert.ok(await page.locator('.menu-toggle').isVisible());
    const spot=await page.locator('[data-object="projets"]').boundingBox();
    assert.ok(Math.abs(spot.x+spot.width/2-width/2)<2,'Initial panorama centered on screen');
+   await page.setViewportSize({width:width+24,height:height+16});
+   await page.waitForTimeout(100);
+   const resized=await page.locator('[data-object="projets"]').boundingBox();
+   assert.ok(Math.abs(resized.x+resized.width/2-(width+24)/2)<2,'Center stable after resizing');
+   await page.setViewportSize({width,height});
+   await page.waitForTimeout(100);
    const start=await page.locator('.viewport').evaluate(el=>el.scrollLeft);
    const cdp=await page.context().newCDPSession(page);
    const yy=Math.min(height-70,230);

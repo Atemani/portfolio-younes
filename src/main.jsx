@@ -118,14 +118,30 @@ function Desk({ go, found }) {
     // Preserve the area being explored when the viewport changes orientation.
     const compact = window.matchMedia("(max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px)").matches;
     let center = compact ? deskImage.initialX : 0.5;
-    const remember = () => { center = (el.scrollLeft + el.clientWidth / 2) / el.scrollWidth; };
-    const position = () => { el.scrollLeft = center * el.scrollWidth - el.clientWidth / 2; };
+    let lastSceneWidth = 0;
+    let lastViewportWidth = 0;
+    let positioning = false;
+    let releaseFrame = 0;
+    const position = () => {
+      lastSceneWidth = scene.current.clientWidth;
+      lastViewportWidth = el.clientWidth;
+      positioning = true;
+      el.scrollLeft = center * lastSceneWidth - lastViewportWidth / 2;
+      cancelAnimationFrame(releaseFrame);
+      releaseFrame = requestAnimationFrame(() => { positioning = false; });
+    };
+    const remember = () => {
+      // A resize may clamp scrollLeft before ResizeObserver fires. Ignore that
+      // intermediate offset so rotating the phone preserves the explored area.
+      if (positioning || el.clientWidth !== lastViewportWidth || scene.current.clientWidth !== lastSceneWidth) return;
+      center = (el.scrollLeft + lastViewportWidth / 2) / lastSceneWidth;
+    };
     position();
     const observer = new ResizeObserver(position);
     observer.observe(el);
     observer.observe(scene.current);
     el.addEventListener("scroll", remember, { passive: true });
-    return () => { observer.disconnect(); el.removeEventListener("scroll", remember); };
+    return () => { cancelAnimationFrame(releaseFrame); observer.disconnect(); el.removeEventListener("scroll", remember); };
   }, []);
   function placeLabel(event) {
     const button = event.currentTarget;
