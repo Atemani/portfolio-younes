@@ -62,7 +62,7 @@ for(const [width,height] of [[1440,900],[1920,1080],[1920,720],[768,1024],[390,8
    if(item.type==='secret') {
      assert.equal(await page.locator('.personal-note p').innerText(),personalNotes[item.id]);
    } else {
-     assert.equal(await page.locator('#panel-title').innerText(),item.title);
+     assert.equal(await page.locator('#panel-title').textContent(),item.title);
    }
    const bounds=await page.locator('dialog').boundingBox();
    assert.ok(bounds.x>=0 && bounds.y>=0 && bounds.x+bounds.width<=width+1 && bounds.y+bounds.height<=height+1,'Panel fits');
