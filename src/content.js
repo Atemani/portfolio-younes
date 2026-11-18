@@ -1,24 +1,145 @@
+export const deskImage = { src: "/images/atelier-v3.webp", width: 1672, height: 941, initialX: 0.54366 };
 export const projects = ["Lin&Lock", "Dieuzy", "Dynam8 Services", "MochiAuto"];
 
-// Positions mesurées sur la photo entière (1671 × 941), en pourcentage.
+// Mesures réalisées sur le bureau v3 (1672 × 941), puis converties en pourcentages.
+// Les zones tactiles sont indépendantes de la taille visuelle des points.
 export const objects = [
-  { id: "projets", label: "Projets", object: "Grand écran", title: "Mes réalisations", x: 54.5, y: 38.3, w: 31, h: 32 },
-  { id: "competences", label: "Compétences", object: "Ordinateur portable", title: "Compétences et prestations", x: 29.1, y: 58.5, w: 20, h: 26 },
-  { id: "podcast", label: "Podcasts", object: "Microphone", title: "Production de podcasts", x: 11.4, y: 61, w: 5.6, h: 21 },
-  { id: "creation", label: "Vidéo", object: "Casque audio", title: "Création de contenus et vidéo", x: 95.2, y: 66, w: 8.3, h: 23 },
-  { id: "strategie", label: "Stratégie", object: "Carnet", title: "Stratégie et gestion de projet", x: 73.6, y: 74, w: 14.8, h: 13.5 },
-  { id: "inspirations", label: "Inspirations", object: "Pile de livres", title: "Mes inspirations", x: 77, y: 55, w: 11.5, h: 12.2 },
-  { id: "cafe", object: "Tasse de café", title: "La pause café", x: 48.4, y: 73.6, w: 7.8, h: 12, secret: true },
-  { id: "lectures", object: "Tome du bas", title: "Mes lectures préférées", x: 80.5, y: 63.8, w: 4.5, h: 4, secret: true }
+  {
+    "id": "projets",
+    "object": "Écran principal",
+    "type": "professional",
+    "x": 54.366,
+    "y": 37.5133,
+    "label": "Mes réalisations",
+    "title": "Mes réalisations",
+    "action": "projets"
+  },
+  {
+    "id": "competences",
+    "object": "Ordinateur portable",
+    "type": "professional",
+    "x": 29.1268,
+    "y": 57.2795,
+    "label": "Mes compétences",
+    "title": "Mes compétences",
+    "action": "competences"
+  },
+  {
+    "id": "podcast",
+    "object": "Microphone",
+    "type": "professional",
+    "x": 11.244,
+    "y": 60.5739,
+    "label": "Podcast & audiovisuel",
+    "title": "Podcast & audiovisuel",
+    "action": "podcast"
+  },
+  {
+    "id": "creation",
+    "object": "Casque audio",
+    "type": "professional",
+    "x": 93.5407,
+    "y": 69.7131,
+    "label": "Création vidéo",
+    "title": "Création vidéo",
+    "action": "creation"
+  },
+  {
+    "id": "strategie",
+    "object": "Carnet",
+    "type": "professional",
+    "x": 73.6842,
+    "y": 74.1764,
+    "label": "Stratégie & gestion de projet",
+    "title": "Stratégie & gestion de projet",
+    "action": "strategie"
+  },
+  {
+    "id": "inspirations",
+    "object": "Pile de livres",
+    "type": "professional",
+    "x": 76.555,
+    "y": 55.5792,
+    "label": "Mes inspirations",
+    "title": "Mes inspirations",
+    "action": "inspirations"
+  },
+  {
+    "id": "youtube",
+    "object": "Feuille YouTube",
+    "type": "professional",
+    "x": 73.3254,
+    "y": 16.0468,
+    "label": "Stratégie YouTube",
+    "title": "Stratégie YouTube",
+    "action": "youtube"
+  },
+  {
+    "id": "contact",
+    "object": "Carte de contact",
+    "type": "professional",
+    "x": 86.6029,
+    "y": 73.4325,
+    "label": "Me contacter",
+    "title": "Contact",
+    "action": "contact"
+  },
+  {
+    "id": "cafe",
+    "object": "Tasse de café",
+    "type": "secret",
+    "x": 48.6244,
+    "y": 73.0074,
+    "label": "La pause café",
+    "title": "La pause café",
+    "action": "cafe"
+  },
+  {
+    "id": "ragnarok",
+    "object": "Jeu PS5",
+    "type": "secret",
+    "x": 87.3804,
+    "y": 49.9469,
+    "label": "God of War Ragnarök",
+    "title": "God of War Ragnarök",
+    "action": "ragnarok"
+  },
+  {
+    "id": "maroc",
+    "object": "Carte postale Maroc",
+    "type": "secret",
+    "x": 81.9378,
+    "y": 17.1095,
+    "label": "Le Maroc",
+    "title": "Le Maroc",
+    "action": "maroc"
+  },
+  {
+    "id": "basket",
+    "object": "Ballon de basket",
+    "type": "secret",
+    "x": 84.988,
+    "y": 61.7428,
+    "label": "Le basket",
+    "title": "Le basket",
+    "action": "basket"
+  }
 ];
+
+export const personalNotes = {
+  cafe: "Je suis un grand fan de café.",
+  ragnarok: "Mon jeu préféré : God of War Ragnarök.",
+  maroc: "Le Maroc.",
+  basket: "Le basket, c'est depuis mes 8 ans. J'ai arrêté à la saison 2025-2026… Ligaments croisés, tu connais."
+};
 
 export const skills = [
   ["strategie", "Stratégie & développement"],
   ["gestion", "Gestion de projet"],
-  ["web", "Création web & e-commerce"],
-  ["creation", "Communication, contenus & stratégie YouTube"],
-  ["automatisation", "Intelligence artificielle & automatisation"],
-  ["projets", "Réalisations professionnelles"]
+  ["web", "Création web et e-commerce"],
+  ["creation", "Communication et création de contenus"],
+  ["automatisation", "Intelligence artificielle et automatisation"],
+  ["youtube", "Stratégie YouTube"]
 ];
 
 export const practices = {
@@ -38,22 +159,34 @@ export const practices = {
       ["Contrôler", "Prévoir une validation humaine lorsque le résultat demande du jugement."]]
   },
   podcast: {
-    intro: "Un bon épisode commence bien avant d’allumer le micro.",
-    steps: [["Préparer", "Trouver l’angle de l’épisode et construire une trame qui laisse de la place à la conversation."],
-      ["Enregistrer", "Soigner la prise de voix et le rythme des échanges."],
-      ["Monter", "Choisir les passages qui portent le propos et préparer une version prête à écouter."]]
+    intro: "Une approche complète de la production de podcasts, de l’idée à la diffusion.",
+    steps: [["Préparer", "Définir un angle, préparer les échanges et construire une trame d’épisode."],
+      ["Enregistrer", "Organiser la prise de son et, pour un format filmé, la captation audiovisuelle."],
+      ["Monter", "Sélectionner les passages, travailler le rythme et soigner le rendu sonore."],
+      ["Diffuser", "Préparer les exports, la présentation de l’épisode et les extraits adaptés aux supports de diffusion."]]
   },
   creation: {
-    intro: "Trouver le format qui rend une idée claire, à l’image comme au son.",
-    steps: [["Écrire", "Partir du message et du public pour choisir un format et un ton."],
-      ["Composer", "Faire dialoguer les images, la voix et les silences."],
-      ["Diffuser", "Sur YouTube, travailler ensemble la promesse du titre, la miniature et les premières secondes. Adapter ensuite le montage au support."]]
+    intro: "Donner forme à un message, de la préparation au montage final.",
+    steps: [["Production vidéo", "Préparer le propos, le déroulé et les éléments nécessaires à la captation."],
+      ["Montage & création de contenus", "Assembler les images, la voix, la musique et les sous-titres pour servir le message."],
+      ["Formats courts", "Adapter l’accroche, le rythme et le cadrage aux formats courts."],
+      ["Création assistée par IA", "Intégrer des outils d’IA dans la préparation ou la réalisation, avec une sélection et une validation humaines."]]
   },
   strategie: {
-    intro: "Avant les outils, il y a un objectif à formuler et des priorités à choisir.",
-    steps: [["Cadrer", "Définir le besoin, le public et ce qui permettra de juger le résultat."],
-      ["Organiser", "Découper le travail en livrables et suivre les étapes dans un calendrier partagé."],
-      ["Ajuster", "Recueillir les retours et déterminer ensemble la prochaine priorité."]]
+    intro: "Relier la vision, l’organisation et les actions concrètes d’un projet.",
+    steps: [["Stratégie", "Clarifier le besoin, le public et les priorités."],
+      ["Pilotage de projets", "Découper le travail en étapes, suivre les livrables et ajuster les priorités."],
+      ["Management & coordination", "Organiser les rôles, les échanges et les décisions au sein d’un projet."],
+      ["Développement commercial", "Structurer une proposition et réfléchir à sa pertinence pour les besoins du client."],
+      ["Optimisation des processus", "Repérer les tâches répétitives et simplifier les méthodes de travail."]]
+  },
+  youtube: {
+    intro: "YouTube m’intéresse comme un média à construire : une promesse, une ligne éditoriale et une relation durable avec son audience.",
+    steps: [["Vision & concepts", "Définir le public, la proposition de la chaîne et des concepts de formats cohérents."],
+      ["Stratégie éditoriale", "Organiser les sujets, les séries et le rythme de publication autour d’une ligne claire."],
+      ["Titres & miniatures", "Travailler une promesse lisible et fidèle au contenu de la vidéo."],
+      ["Analyse des données", "Lire ensemble le CTR, la rétention et la durée de visionnage pour comprendre les réactions du public."],
+      ["Audience & fidélisation", "Observer les retours et la continuité entre les vidéos pour faire évoluer les formats et donner envie de revenir."]]
   }
 };
 
