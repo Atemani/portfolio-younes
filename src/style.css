@@ -114,8 +114,8 @@ dd { margin: 8px 0 0; }
   .explore-hint { display: none; }
   .index-button { font-size: 1.2rem; }
 }
-@media (max-width: 760px), (max-aspect-ratio: 6/5) {
-  :root { --frame: clamp(320px,58svh,760px); --edge: clamp(18px,4vw,36px); }
+@media (max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px) {
+  :root { --frame: max(clamp(320px,58svh,760px), calc(100vw * .563136)); --edge: clamp(18px,4vw,36px); }
   .header-inner { gap: 8px; }
   .viewport { align-items: flex-start; }
   .scene { width: max(100%, calc(var(--frame) * 1.77577)); }
