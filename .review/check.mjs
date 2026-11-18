@@ -30,7 +30,7 @@ for (const [width,height] of [[1440,900],[768,1024],[390,844],[320,670],[1920,72
     await spot.click();
     await page.locator('dialog[open]').waitFor();
     assert.ok(page.url().endsWith('#'+key));
-    assert.match(await page.locator('.panel-bar .mono').innerText(), /Dossier \\d{2}/i);
+    assert.match(await page.locator('.panel-bar .mono').innerText(), /Dossier [0-9]{2}/i);
     if (key === 'inspirations') {
       await page.getByRole('button',{name:'Parcourir ma pile de livres'}).click();
       await page.locator('.books').waitFor();
