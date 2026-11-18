@@ -69,6 +69,8 @@ for (const [width,height] of [[1440,900],[768,1024],[390,844],[320,670],[1920,72
   await page.goto('http://127.0.0.1:4173/#contact');
   assert.equal(await page.getByRole('link',{name:/Mon profil GitHub/}).getAttribute('href'),'https://github.com/Atemani');
   await page.getByRole('button',{name:'Fermer la fenêtre'}).click();
+  await page.locator('dialog').waitFor({state:'detached'});
+  await page.keyboard.press('Tab');
   const keyboardSpot = page.locator('[data-object="cafe"]');
   await keyboardSpot.focus();
   assert.equal(await keyboardSpot.locator('.tag').evaluate(el=>getComputedStyle(el).visibility),'visible');
