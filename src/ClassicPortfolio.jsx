@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { caseStudies, practices, skills } from "./content.js";
 import { toolGroups } from "./tool-stack.js";
 import { whatsappContact } from "./contact.js";
@@ -66,6 +66,15 @@ function ToolMarquee({ group, index }) {
 }
 
 export default function ClassicPortfolio() {
+  const mobileMenu = useRef(null);
+  useEffect(() => {
+    const dismiss = event => {
+      const menu = mobileMenu.current;
+      if (menu?.open && !menu.contains(event.target)) menu.open = false;
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, []);
   useEffect(() => {
     document.title = "Younes Atemani — Projets, parcours & savoir-faire";
     // Les ancres directes restent utilisables même après le rendu React.
@@ -86,6 +95,25 @@ export default function ClassicPortfolio() {
         <a href="#outils">Outils</a>
       </nav>
       <a className="cp-switch" href="/">EXPLORER <span aria-hidden="true">↗</span></a>
+      <details className="cp-mobile-menu" ref={mobileMenu} onKeyDown={event => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          mobileMenu.current.open = false;
+          mobileMenu.current.querySelector("summary").focus();
+        }
+      }}>
+        <summary>Menu</summary>
+        <nav className="cp-mobile-nav" aria-label="Navigation mobile de la version à parcourir" onClick={event => {
+          if (event.target.closest("a")) mobileMenu.current.open = false;
+        }}>
+          <a href="#realisations">Projets</a>
+          <a href="#labo">Labo</a>
+          <a href="#parcours">Parcours</a>
+          <a href="#savoir-faire">Savoir-faire</a>
+          <a href="#outils">Outils</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </details>
     </header>
     <main className="cp-main" id="contenu-classique">
       <section className="cp-hero" aria-labelledby="cp-title">
