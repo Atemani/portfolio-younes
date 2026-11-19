@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ClassicPortfolio from "./ClassicPortfolio.jsx";
+import { whatsappContact } from "./contact.js";
 import { caseStudies, deskImage, objects, personalNotes, practices, readings, skills } from "./content.js";
 import "@fontsource/montserrat/latin-400.css";
 import "@fontsource/montserrat/latin-600.css";
@@ -102,7 +103,8 @@ function PanelBody({ page, go, found }) {
   if (page === "contact") return <>
     <p className="lede">Une mission, un projet ou simplement une idée à discuter ? Parlons-en.</p>
     <p>Je peux intervenir sur la communication, la création web, le contenu, la coordination digitale et l'optimisation de processus. Le plus simple est de m'expliquer ton besoin et de voir ensemble comment avancer.</p>
-    <a className="primary" href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">Me retrouver sur GitHub ↗</a>
+    <a className="primary" href={whatsappContact.url} target="_blank" rel="noopener noreferrer">M’écrire sur WhatsApp ↗</a>
+    <p>Directement au {whatsappContact.display}.</p>
   </>;
   return null;
 }

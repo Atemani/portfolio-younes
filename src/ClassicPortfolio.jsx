@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { caseStudies, practices, skills } from "./content.js";
 import { toolGroups } from "./tool-stack.js";
+import { whatsappContact } from "./contact.js";
 import "./classic-portfolio.css";
 
 // Version à parcourir : une expérience éditoriale indépendante du bureau.
@@ -146,8 +147,8 @@ export default function ClassicPortfolio() {
       <section className="cp-contact cp-block" id="contact">
         <span>06 / LA SUITE S'ÉCRIT ENSEMBLE</span>
         <h2>ON EN<br/><em>PARLE ?</em></h2>
-        <div className="cp-contact-bottom"><p>Une mission, une collaboration ou une idée à construire ? Je suis ouvert aux échanges autour du digital, de la création et de la stratégie.</p>
-          <a href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">RETROUVER MON PROFIL <span aria-hidden="true">↗</span></a>
+        <div className="cp-contact-bottom"><p>Une mission, une collaboration ou une idée à construire ? Je suis ouvert aux échanges autour du digital, de la création et de la stratégie. Contact direct : {whatsappContact.display}.</p>
+          <a href={whatsappContact.url} target="_blank" rel="noopener noreferrer" aria-label={"M’écrire sur WhatsApp au " + whatsappContact.display}>M’ÉCRIRE SUR WHATSAPP <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </main>
