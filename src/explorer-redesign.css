@@ -267,3 +267,24 @@
 @media (prefers-reduced-motion: reduce) {
   .explorer-mode .hotspot .marker::after { animation: none; }
 }
+
+
+/* Do not inherit the former 38 × 3px decorative rule for the editorial label. */
+.explorer-mode .intro::before { width: auto; height: auto; background: none; }
+.explorer-mode .header-inner > * { min-width: 0; }
+.explorer-mode .menu-toggle { flex-shrink: 0; padding-inline: 4px; }
+.explorer-mode .panel-bar > .mono { min-width: 0; }
+.explorer-mode .close { flex-shrink: 0; }
+.explorer-mode .panel-content { overflow-wrap: anywhere; }
+.explorer-mode .case-metrics { grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr)); }
+@media (max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px) {
+  .explorer-mode .header-inner { gap: 10px; }
+  .explorer-mode .mode-link-mobile { padding-inline: 12px; font-size: 1.1rem; gap: 6px; }
+  .explorer-mode .intro h1 span { max-width: 100%; white-space: normal; }
+  .explorer-mode .panel-content { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 380px) {
+  .explorer-mode .identity > span:not(.signature) { display: none; }
+  .explorer-mode .signature { border-right: 0; padding-right: 0; }
+  .explorer-mode .panel-bar { padding-inline: 16px; }
+}
