@@ -3,6 +3,7 @@ import { caseStudies, practices, skills } from "./content.js";
 import { toolGroups } from "./tool-stack.js";
 import { whatsappContact } from "./contact.js";
 import "./classic-portfolio.css";
+import ProjectLogosMarquee from "./ProjectLogosMarquee.jsx";
 
 // Version à parcourir : une expérience éditoriale indépendante du bureau.
 const timeline = [
@@ -97,6 +98,8 @@ export default function ClassicPortfolio() {
         </div>
         <span className="cp-hero-stamp" aria-hidden="true">Y.A / <b>2026</b></span>
       </section>
+
+      <ProjectLogosMarquee />
 
       <section className="cp-work cp-block" id="realisations" aria-labelledby="cp-work-title">
         <div className="cp-work-layout">
