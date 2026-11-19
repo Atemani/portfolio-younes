@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { deskImage, objects, personalNotes, practices, projects, readings, skills } from "./content.js";
+import { caseStudies, deskImage, objects, personalNotes, practices, readings, skills } from "./content.js";
 import "@fontsource/montserrat/latin-400.css";
 import "@fontsource/montserrat/latin-600.css";
 import "@fontsource/barlow-condensed/latin-700.css";
@@ -9,9 +9,9 @@ import "@fontsource/ibm-plex-mono/latin-400.css";
 import "./style.css";
 
 const sections = { projets: "Projets", competences: "Compétences", apropos: "À propos", contact: "Contact" };
-const titles = { ...Object.fromEntries(skills), index: "Explorer les objets", menu: "Navigation", lectures: "Mes lectures préférées", ...Object.fromEntries(objects.map(item => [item.id, item.title])), apropos: "À propos", contact: "Contact" };
+const titles = { ...Object.fromEntries(skills), ...Object.fromEntries(caseStudies.map(item => [item.id, item.name])), index: "Explorer les objets", menu: "Navigation", lectures: "Mes lectures préférées", ...Object.fromEntries(objects.map(item => [item.id, item.title])), apropos: "À propos", contact: "Contact" };
 const dossiers = {
-  projets: "01", competences: "02", strategie: "03", gestion: "04",
+  projets: "01", competences: "02", linlock: "01.1", dieuzy: "01.2", dynam8: "01.3", mochiauto: "01.4", strategie: "03", gestion: "04",
   web: "05", creation: "06", automatisation: "07", podcast: "08",
   inspirations: "09", lectures: "10", cafe: "11", apropos: "12", contact: "13", youtube: "14", ragnarok: "15", maroc: "16", basket: "17"
 };
@@ -38,13 +38,31 @@ function PanelBody({ page, go, found }) {
     <p>{personalNotes[page]}</p>
   </div>;
   if (page === "projets") return <>
-    <p className="lede">Quatre projets de mon portfolio.</p>
-    <ul className="projects">{projects.map((name, i) =>
-      <li key={name}><span className={"monogram mark-" + i} aria-hidden="true">{["L&L", "D.", "D8", "M/A"][i]}</span><strong>{name}</strong></li>
-    )}</ul>
+    <p className="lede">Quatre expériences concrètes, quatre manières de concevoir et de faire avancer un projet. Choisis un dossier pour découvrir mon rôle et les réalisations.</p>
+    <div className="project-directory">{caseStudies.map((item, i) =>
+      <button key={item.id} className="project-entry" onClick={() => go(item.id)}>
+        <span className={"monogram mark-" + i} aria-hidden="true">{["L&L", "D.", "D8", "M/A"][i]}</span>
+        <span className="project-entry-text"><strong>{item.name}</strong><small>{item.category}</small><span>{item.summary}</span></span>
+        <span className="project-arrow" aria-hidden="true">↗</span>
+      </button>
+    )}</div>
   </>;
+  const caseStudy = caseStudies.find(item => item.id === page);
+  if (caseStudy) return <article className="case-study">
+    <p className="case-eyebrow">{caseStudy.category} <span> / {caseStudy.period}</span></p>
+    <p className="lede">{caseStudy.summary}</p>
+    {caseStudy.metrics && <div className="case-metrics">{caseStudy.metrics.map(([value, label]) => <div key={label}><strong>{value}</strong><small>{label}</small></div>)}</div>}
+    <section className="case-section"><h3>Le contexte</h3><p>{caseStudy.context}</p></section>
+    <section className="case-section"><h3>Mon rôle</h3><p>{caseStudy.role}</p></section>
+    <section className="case-section"><h3>Ce que j'ai réalisé</h3>
+      <dl>{caseStudy.actions.map(([title, copy]) => <div key={title}><dt>{title}</dt><dd>{copy}</dd></div>)}</dl>
+    </section>
+    <section className="case-section"><h3>Le résultat</h3><p>{caseStudy.result}</p></section>
+    {caseStudy.url && <a className="primary" href={caseStudy.url} target="_blank" rel="noopener noreferrer">Voir le site du projet ↗</a>}
+    <button className="text-link" onClick={() => go("projets")}>← Tous les projets</button>
+  </article>;
   if (page === "competences") return <>
-    <p className="lede">Du cadrage d’une idée à sa mise en ligne.</p>
+    <p className="lede">Stratégie, création, développement digital et production : voici les domaines dans lesquels je peux accompagner un projet, de l’idée au concret.</p>
     <div className="choices">{skills.map(([id, label]) =>
       <button key={id} onClick={() => go(id)}><span className="entry-number" aria-hidden="true">{dossiers[id]}</span><span>{label}</span></button>
     )}</div>
@@ -54,8 +72,10 @@ function PanelBody({ page, go, found }) {
     <dl>{practices[page].steps.map(([title, copy]) =>
       <div key={title}><dt>{title}</dt><dd>{copy}</dd></div>
     )}</dl>
-    {page === "creation" && <button className="text-link" onClick={() => go("podcast")}>Production de podcasts</button>}
-    <button className="text-link" onClick={() => go("competences")}>Toutes les compétences</button>
+    {practices[page].proof && <p className="practice-proof">{practices[page].proof}</p>}
+    {page === "creation" && <button className="text-link" onClick={() => go("podcast")}>Découvrir mon expérience podcast ↗</button>}
+    {["strategie","gestion","web","creation","automatisation"].includes(page) && <button className="text-link" onClick={() => go("projets")}>Voir mes réalisations ↗</button>}
+    <button className="text-link" onClick={() => go("competences")}>← Toutes les compétences</button>
   </>;
   if (page === "inspirations") return <>
     <p className="lede">Romans, stratégie, communication et manga : les quatre livres présents sur mon bureau.</p>
@@ -69,8 +89,20 @@ function PanelBody({ page, go, found }) {
       <li key={title}><strong>{title}</strong><span>{category}</span></li>
     )}</ul>
   </>;
-  if (page === "apropos") return <><p className="lede">Moi, c’est Younes Atemani.</p><p>Mon bureau réunit ce que j’aime faire : organiser un projet, préparer un podcast et donner forme à des contenus. Chaque objet raconte une partie de ce travail.</p><button className="primary" onClick={() => go("projets")}>Découvrir mes projets</button></>;
-  if (page === "contact") return <><p className="lede">Retrouvez-moi sur GitHub.</p><a className="primary" href="https://github.com/Atemani">Mon profil GitHub</a></>;
+  if (page === "apropos") return <>
+    <p className="lede">Moi, c'est Younes. J'aime autant imaginer une idée que la voir prendre forme.</p>
+    <p>Mon parcours a commencé dans l'informatique avec un BTS SIO SLAM, puis s'est poursuivi dans la gestion de projet digital et la communication stratégique. Cette trajectoire me permet aujourd'hui de relier des univers souvent séparés : stratégie, création, web, contenus et automatisation.</p>
+    <p>J'ai participé à des projets très différents : communication d'une entreprise industrielle, déploiement d'un service de casiers connectés, conception d'un prototype d'application et création d'un micro-média automobile.</p>
+    <p>Ce qui m'anime ? Comprendre comment les choses fonctionnent, trouver des solutions concrètes et apprendre en construisant. Je suis également passionné par YouTube, les médias et les nouvelles façons de créer du contenu.</p>
+    <button className="primary" onClick={() => go("projets")}>Découvrir mes réalisations ↗</button>
+    <button className="text-link" onClick={() => go("contact")}>Me contacter ↗</button>
+  </>;
+  if (page === "contact") return <>
+    <p className="lede">Une mission, un projet ou simplement une idée à discuter ? Parlons-en.</p>
+    <p>Je peux intervenir sur la communication, la création web, le contenu, la coordination digitale et l'optimisation de processus. Le plus simple est de m'expliquer ton besoin et de voir ensemble comment avancer.</p>
+    <a className="primary" href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">Me retrouver sur GitHub ↗</a>
+    <p className="contact-note">Un lien direct de contact professionnel pourra être ajouté ici dès qu'une adresse ou un profil public sera confirmé.</p>
+  </>;
   return null;
 }
 
