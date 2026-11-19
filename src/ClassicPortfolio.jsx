@@ -3,8 +3,7 @@ import { caseStudies, practices, skills } from "./content.js";
 import { toolGroups } from "./tool-stack.js";
 import "./classic-portfolio.css";
 
-// Une vue autonome qui réutilise les contenus documentés du bureau interactif.
-// Les projets académiques seront enrichis après sélection des sources publiables.
+// Version à parcourir : une expérience éditoriale indépendante du bureau.
 const timeline = [
   { year: "2018 — 2020", title: "Les bases techniques", description: "BTS SIO, option SLAM : programmation, logique applicative, frameworks et premières intégrations." },
   { year: "2021 — 2023", title: "Digital & marketing", description: "Bachelor à l’IIM Digital School : conception de projets, marketing digital et réflexion stratégique." },
@@ -15,9 +14,9 @@ const timeline = [
 ];
 
 const lab = [
-  { no: "A", title: "Créations graphiques", kind: "Supports réalisés", copy: "Menus conçus pour La Dolce Vita et Pizza & Love, ainsi que d’autres créations graphiques." },
-  { no: "B", title: "Campagnes & concepts", kind: "Projets académiques", copy: "Travaux de communication et de marketing imaginés dans le cadre de mes études. Une sélection visuelle sera ajoutée progressivement." },
-  { no: "C", title: "Idées & prototypes", kind: "Explorations", copy: "Maquettes et propositions permettant de concrétiser une idée, même lorsqu’elle n’a pas donné lieu à un lancement commercial." }
+  { no: "01", title: "Créations graphiques", kind: "Supports réalisés", copy: "Menus conçus pour La Dolce Vita et Pizza & Love, ainsi que d’autres créations graphiques." },
+  { no: "02", title: "Campagnes & concepts", kind: "Projets académiques", copy: "Travaux de communication et de marketing imaginés dans le cadre de mes études. Une sélection visuelle sera ajoutée progressivement." },
+  { no: "03", title: "Idées & prototypes", kind: "Explorations", copy: "Maquettes et propositions permettant de concrétiser une idée, même lorsqu’elle n’a pas donné lieu à un lancement commercial." }
 ];
 
 function Dossier({ item, index }) {
@@ -25,9 +24,9 @@ function Dossier({ item, index }) {
     <summary>
       <span className="cp-no">0{index + 1}</span>
       <span className="cp-project-heading">
-        <span className="cp-tag">{item.category}</span>
         <strong>{item.name}</strong>
         <span className="cp-project-intro">{item.summary}</span>
+        <span className="cp-project-category">{item.category}</span>
       </span>
       <span className="cp-open" aria-hidden="true">↗</span>
     </summary>
@@ -45,19 +44,41 @@ function Dossier({ item, index }) {
   </details>;
 }
 
+function ToolMarquee({ group, index }) {
+  return <section className="cp-tool-group" aria-labelledby={"cp-tool-" + group.id}>
+    <div className="cp-tool-heading">
+      <h3 id={"cp-tool-" + group.id}>{group.title}</h3>
+      <span>{String(group.tools.length).padStart(2, "0")} OUTILS</span>
+    </div>
+    <div className={"cp-marquee-window " + (index % 2 ? "reverse" : "")} tabIndex="0" aria-label={"Outils : " + group.title}>
+      <div className="cp-marquee-track">
+        {[0,1].map(duplicate => <div className="cp-marquee-sequence" key={duplicate} aria-hidden={duplicate === 1 ? "true" : undefined}>
+          {group.tools.map(tool => <div className="cp-tool-item" key={tool.name}>
+            <img src={"/brand-logos/" + tool.icon + ".svg"} alt={duplicate === 0 ? "Logo " + tool.name : ""} width="72" height="72" loading="lazy" decoding="async" />
+            <span>{tool.name}</span>
+          </div>)}
+        </div>)}
+      </div>
+    </div>
+  </section>;
+}
+
 export default function ClassicPortfolio() {
   useEffect(() => {
     document.title = "Younes Atemani — Projets, parcours & savoir-faire";
+    // Les ancres directes restent utilisables même après le rendu React.
+    const target = decodeURIComponent(window.location.hash.slice(1));
+    if (target) requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView());
     return () => { document.title = "Le bureau de Younes Atemani — Portfolio"; };
   }, []);
 
   return <div className="classic-portfolio" id="haut">
     <a className="cp-skip" href="#contenu-classique">Aller au contenu</a>
     <header className="cp-header">
-      <a className="cp-identity" href="/portfolio" aria-label="Accueil du portfolio à parcourir"><span>YA.</span><small>Younes Atemani</small></a>
+      <a className="cp-identity" href="/portfolio" aria-label="Accueil de la version à parcourir"><span>YA.</span><small>Younes Atemani</small></a>
       <nav className="cp-nav" aria-label="Navigation de la version à parcourir">
-        <a href="#realisations">Réalisations</a>
-        <a href="#labo">Labo créatif</a>
+        <a href="#realisations">Projets</a>
+        <a href="#labo">Labo</a>
         <a href="#parcours">Parcours</a>
         <a href="#savoir-faire">Savoir-faire</a>
         <a href="#outils">Outils</a>
@@ -66,71 +87,70 @@ export default function ClassicPortfolio() {
     </header>
     <main className="cp-main" id="contenu-classique">
       <section className="cp-hero" aria-labelledby="cp-title">
-        <div className="cp-hero-lines" aria-hidden="true"></div>
-        <p className="cp-eyebrow">PORTFOLIO / VERSION À PARCOURIR</p>
-        <h1 id="cp-title">DES IDÉES.<span>DU CONCRET.</span></h1>
-        <p className="cp-lead">Je donne vie aux idées à travers le digital, la création et la stratégie.</p>
-        <div className="cp-hero-footer">
-          <a className="cp-action" href="#realisations">DÉCOUVRIR MES PROJETS ↓</a>
-          <p>Une autre façon de découvrir mon travail, étape par étape.</p>
+        <div className="cp-hero-top"><span>PORTFOLIO / 2026</span><span>STRATÉGIE · DIGITAL · CRÉATION</span></div>
+        <h1 id="cp-title"><span>J'AIME</span><span>CRÉER.</span></h1>
+        <div className="cp-hero-stripe"><span>ENCORE PLUS</span> <em>APPRENDRE.</em></div>
+        <div className="cp-hero-bottom">
+          <p>Je donne vie aux idées à travers le digital, la création et la stratégie.</p>
+          <a href="#realisations">VOIR MES PROJETS <span aria-hidden="true">↓</span></a>
+        </div>
+        <span className="cp-hero-stamp" aria-hidden="true">Y.A / <b>2026</b></span>
+      </section>
+
+      <section className="cp-work cp-block" id="realisations" aria-labelledby="cp-work-title">
+        <div className="cp-work-layout">
+          <div className="cp-side-label"><span>01 — EXPÉRIENCES</span><p>Ce que j'ai construit, coordonné et produit.</p></div>
+          <div className="cp-work-main">
+            <h2 id="cp-work-title"><span>CE QUE</span> J'AI <i>FAIT.</i></h2>
+            <p className="cp-work-intro">Quatre projets, quatre terrains d'expérimentation. Ouvre un dossier pour découvrir mon rôle, mes actions et ce qui en est sorti.</p>
+            <div className="cp-dossiers">{caseStudies.map((item, i) => <Dossier item={item} index={i} key={item.id}/>)}</div>
+          </div>
         </div>
       </section>
 
-      <section className="cp-section" id="realisations">
-        <div className="cp-section-heading"><span className="cp-numeral">01 /</span><div><p className="cp-eyebrow">EXPÉRIENCES ET RÉALISATIONS</p><h2>CE QUE J'AI FAIT.</h2></div></div>
-        <p className="cp-section-intro">Des projets professionnels et personnels sur lesquels j'ai réellement travaillé. Chaque dossier raconte le contexte, mes interventions et le résultat.</p>
-        <div className="cp-dossiers">{caseStudies.map((item,i)=><Dossier key={item.id} item={item} index={i}/>)}</div>
-      </section>
-
-      <section className="cp-section cp-lab" id="labo">
-        <div className="cp-section-heading"><span className="cp-numeral">02 /</span><div><p className="cp-eyebrow">IDÉES, ESSAIS ET PROJETS D'ÉCOLE</p><h2>LE LABO CRÉATIF.</h2></div></div>
-        <p className="cp-section-intro">Tous les projets ne sont pas des commandes clients. Certains servent à imaginer, expérimenter ou apprendre : ils ont aussi leur place ici, avec leur véritable contexte.</p>
-        <div className="cp-lab-grid">{lab.map(item=><article key={item.no} className="cp-lab-card">
-          <span className="cp-lab-no">{item.no} / CONCEPT</span>
-          <p className="cp-tag">{item.kind}</p>
-          <h3>{item.title}</h3>
-          <p>{item.copy}</p>
+      <section className="cp-lab cp-block" id="labo" aria-labelledby="cp-lab-title">
+        <span className="cp-section-index">02 / EN DEHORS DES CASES</span>
+        <h2 id="cp-lab-title">CE QUE J'AI<br/><em>IMAGINÉ.</em></h2>
+        <p className="cp-lab-intro">Tout ne finit pas par devenir un produit ou une mission client. Les projets d'école, les essais et les idées méritent aussi leur place.</p>
+        <div className="cp-lab-list">{lab.map(item => <article key={item.no} className="cp-lab-item">
+          <span className="cp-lab-no">{item.no}</span>
+          <div><span className="cp-lab-kind">{item.kind}</span><h3>{item.title}</h3><p>{item.copy}</p></div>
+          <span className="cp-lab-cross" aria-hidden="true">✳</span>
         </article>)}</div>
       </section>
 
-      <section className="cp-section" id="parcours">
-        <div className="cp-section-heading"><span className="cp-numeral">03 /</span><div><p className="cp-eyebrow">D'OÙ JE VIENS</p><h2>MON PARCOURS.</h2></div></div>
-        <p className="cp-section-intro">Du développement informatique à la communication, en passant par la stratégie et la création : un parcours qui explique ma façon de relier les disciplines.</p>
-        <ol className="cp-timeline">{timeline.map((step,i)=><li key={i}><span className="cp-time">{step.year}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>)}</ol>
+      <section className="cp-journey cp-block" id="parcours" aria-labelledby="cp-journey-title">
+        <div className="cp-journey-lead"><span>03 / DEPUIS 2018</span><h2 id="cp-journey-title">UN PARCOURS<br/>PAS VRAIMENT<br/><em>LINÉAIRE.</em></h2></div>
+        <ol className="cp-timeline">{timeline.map((step,i) => <li key={i}>
+          <span className="cp-time">{step.year}</span>
+          <div><h3>{step.title}</h3><p>{step.description}</p></div>
+        </li>)}</ol>
       </section>
 
-      <section className="cp-section" id="savoir-faire">
-        <div className="cp-section-heading"><span className="cp-numeral">04 /</span><div><p className="cp-eyebrow">DES COMPÉTENCES À METTRE AU SERVICE D'UN PROJET</p><h2>CE QUE JE PEUX FAIRE.</h2></div></div>
-        <p className="cp-section-intro">Des compétences complémentaires pour concevoir, produire, coordonner et faire avancer des projets digitaux.</p>
-        <div className="cp-skills">{skills.map(([id,name],i)=><details key={id}>
-          <summary><span className="cp-no">0{i+1}</span><strong>{name}</strong><span aria-hidden="true">+</span></summary>
-          <div className="cp-skill-body"><p>{practices[id]?.intro}</p><ul>{practices[id]?.steps.map(([title,copy])=><li key={title}><b>{title}</b><span>{copy}</span></li>)}</ul></div>
+      <section className="cp-skills-section cp-block" id="savoir-faire" aria-labelledby="cp-skills-title">
+        <div className="cp-skills-heading"><span>04 / PRESTATIONS ET SAVOIR-FAIRE</span><h2 id="cp-skills-title">JE PEUX<br/><em>FAIRE QUOI ?</em></h2>
+          <p>Des compétences qui se croisent pour faire avancer les projets. Choisis un domaine pour voir plus précisément ce que je peux réaliser.</p></div>
+        <div className="cp-skills">{skills.map(([id,name],i) => <details key={id}>
+          <summary><span className="cp-no">0{i+1}</span><strong>{name}</strong><span className="cp-skill-plus" aria-hidden="true">+</span></summary>
+          <div className="cp-skill-body"><p>{practices[id]?.intro}</p><ul>{practices[id]?.steps.map(([title,copy]) => <li key={title}><b>{title}</b><span>{copy}</span></li>)}</ul></div>
         </details>)}</div>
       </section>
 
-      <section className="cp-section cp-tools" id="outils" aria-labelledby="cp-tools-title">
-        <div className="cp-section-heading"><span className="cp-numeral">05 /</span><div><p className="cp-eyebrow">MON ÉCOSYSTÈME DE TRAVAIL</p><h2 id="cp-tools-title">MES OUTILS.</h2></div></div>
-        <p className="cp-section-intro">Du développement à la production vidéo, en passant par la stratégie et l'automatisation : les outils avec lesquels je travaille ou que j'ai déjà utilisés sur mes projets.</p>
-        <div className="cp-tool-groups">{toolGroups.map(group => <section className="cp-tool-group" key={group.id} aria-labelledby={"cp-tool-" + group.id}>
-          <div className="cp-tool-heading">
-            <div><h3 id={"cp-tool-" + group.id}>{group.title}</h3><p>{group.subtitle}</p></div>
-            <span className="cp-tool-count">{String(group.tools.length).padStart(2, "0")} OUTILS</span>
-          </div>
-          <div className="cp-tool-grid">{group.tools.map(tool => <div key={tool.name} className="cp-tool-card">
-            <span className="cp-tool-logo"><img src={"/brand-logos/" + tool.icon + ".svg"} alt="" width="48" height="48" loading="lazy" decoding="async" /></span>
-            <span className="cp-tool-name">{tool.name}</span>
-          </div>)}</div>
-        </section>)}</div>
-        <p className="cp-tool-footnote">{toolGroups.reduce((total, group) => total + group.tools.length, 0)} outils répartis en quatre univers. Des usages variés selon les projets, sans prétendre à la même expertise sur chacun.</p>
+      <section className="cp-tools cp-block" id="outils" aria-labelledby="cp-tools-title">
+        <div className="cp-tools-titleline"><span>05 / MON ÉCOSYSTÈME</span><h2 id="cp-tools-title">LES OUTILS<br/>QUE J'UTILISE<span>.</span></h2></div>
+        <p className="cp-tools-intro">Des outils différents selon les projets. Voici ceux qui accompagnent mon travail, de la création à la production et à l'automatisation.</p>
+        <div className="cp-tool-groups">{toolGroups.map((group, index) => <ToolMarquee group={group} index={index} key={group.id}/>)}</div>
+        <p className="cp-tool-footnote">28 outils regroupés en quatre univers. Les logos sont présentés ici pour illustrer mon environnement de travail, sans revendication de certification par ces marques.</p>
       </section>
 
-      <section className="cp-contact" id="contact">
-        <p className="cp-eyebrow">06 / ET MAINTENANT ?</p>
-        <h2>ON EN PARLE ?</h2>
-        <p>Une mission, une collaboration ou un projet à imaginer ? Je suis ouvert aux échanges autour du digital, de la création et de la stratégie.</p>
-        <a className="cp-action" href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">RETROUVER MON PROFIL ↗</a>
+      <section className="cp-contact cp-block" id="contact">
+        <span>06 / LA SUITE S'ÉCRIT ENSEMBLE</span>
+        <h2>ON EN<br/><em>PARLE ?</em></h2>
+        <div className="cp-contact-bottom"><p>Une mission, une collaboration ou une idée à construire ? Je suis ouvert aux échanges autour du digital, de la création et de la stratégie.</p>
+          <a href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">RETROUVER MON PROFIL <span aria-hidden="true">↗</span></a>
+        </div>
       </section>
     </main>
-    <footer className="cp-footer"><span>YOUNES ATEMANI / PORTFOLIO</span><a href="/">EXPLORER LE BUREAU ↗</a><a href="#haut">REMONTER ↑</a></footer>
+    <footer className="cp-footer"><span>YOUNES ATEMANI © 2026</span><a href="/">EXPLORER LE BUREAU ↗</a><a href="#haut">REMONTER ↑</a></footer>
   </div>;
 }
