@@ -36,7 +36,7 @@
 .cp-hero { position: relative; isolation: isolate; min-height: min(850px,94svh); padding: 44px clamp(22px,5.5vw,100px) 62px; display: flex; flex-direction: column; justify-content: space-between; background: var(--cp-white); }
 .cp-hero-top { display: flex; justify-content: space-between; gap: 15px; color: var(--cp-muted); font: 400 .68rem/1.4 "IBM Plex Mono",monospace; }
 .cp-hero h1 { margin: clamp(32px,6vw,100px) 0 20px; font: 800 clamp(8rem,22vw,25rem)/.66 "Barlow Condensed", sans-serif; letter-spacing: -.065em; }
-.cp-hero h1 span { display: block; white-space: nowrap; }
+.cp-hero h1 span { display: block; white-space: nowrap; color: var(--cp-black); }
 .cp-hero h1 span:nth-child(2) { margin-left: clamp(18px,9vw,190px); }
 .cp-hero-stripe { position: relative; z-index: 1; align-self: stretch; width: calc(100% + clamp(44px,11vw,200px)); margin-left: calc(-1 * clamp(22px,5.5vw,100px)); padding: clamp(13px,2vw,24px) clamp(22px,5.5vw,100px); background: var(--cp-blue); color: var(--cp-white); font: 800 clamp(2.2rem,7vw,7.6rem)/.92 "Barlow Condensed",sans-serif; letter-spacing: -.022em; text-transform: uppercase; transform: rotate(-2deg); }
 .cp-hero-stripe em { font-style: normal; margin-left: clamp(5px,1.5vw,30px); }
