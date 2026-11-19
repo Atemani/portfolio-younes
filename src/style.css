@@ -163,3 +163,35 @@ dd { margin: 8px 0 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+
+/* Études de cas — conserver le langage éditorial Underground Edition. */
+.project-directory { margin-top: 24px; }
+.project-entry { display: flex; align-items: flex-start; width: 100%; gap: 16px; text-align: left; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.project-entry .monogram { flex: 0 0 52px; }
+.project-entry-text { display: grid; gap: 7px; flex: 1; min-width: 0; }
+.project-entry-text strong { font: 700 clamp(1.6rem, 2.6vw, 2.3rem)/1 var(--display); }
+.project-entry-text small { font: 400 .65rem/1.5 var(--mono); color: var(--mustard); text-transform: uppercase; }
+.project-entry-text > span { color: #d2c5af; font-size: .82rem; line-height: 1.65; }
+.project-arrow { color: var(--mustard); font: 800 1.5rem/1 var(--display); }
+.project-entry:hover .project-entry-text strong, .project-entry:focus-visible .project-entry-text strong { color: var(--mustard); }
+.case-eyebrow { color: var(--mustard) !important; text-transform: uppercase; font: 400 .67rem/1.7 var(--mono) !important; letter-spacing: .03em; }
+.case-eyebrow span { color: #bbaa95; }
+.case-section { padding: 22px 0 10px; border-bottom: 1px solid var(--line); }
+.case-section h3 { margin: 0; font: 800 1.8rem/1.05 var(--display); text-transform: uppercase; }
+.case-section p { margin: 12px 0 20px; }
+.case-section dl { margin: 12px 0 20px; }
+.case-section dt { font-size: 1.35rem; }
+.case-section dd { font-size: .87rem; }
+.case-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); margin: 24px 0; border: 1px solid var(--line); }
+.case-metrics > div { display: grid; gap: 8px; padding: 18px 10px; background: var(--ink); }
+.case-metrics strong { color: var(--mustard); font: 800 clamp(1.7rem, 4vw, 2.5rem)/1 var(--display); }
+.case-metrics small { font: 400 .58rem/1.5 var(--mono); color: #d2c5af; }
+.practice-proof { margin: 22px 0 !important; padding: 16px 18px; border-left: 3px solid var(--mustard); background: #e8ddc80c; font-size: .83rem !important; }
+@media (max-width: 760px) {
+  .project-entry { gap: 12px; }
+  .project-entry .monogram { flex-basis: 42px; width: 42px; height: 40px; }
+  .project-entry-text > span { font-size: .77rem; }
+  .case-metrics > div { padding: 14px 7px; }
+  .case-metrics strong { font-size: 1.65rem; }
+}
