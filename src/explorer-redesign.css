@@ -1,0 +1,269 @@
+/* EXPLORER / Editorial Clash
+   Visual system shared with /portfolio; all rules scoped to avoid modifying
+   the classic portfolio and all desk geometry, hotspots and interactions. */
+
+.explorer-mode {
+  --ink: #111111;
+  --paper: #ffffff;
+  --mustard: #2448ff;
+  --secret: #ffffff;
+  --patina: #5b626f;
+  --line: #11111128;
+  position: relative;
+  min-height: 100svh;
+  background: #ffffff;
+  color: #111111;
+  color-scheme: light;
+}
+.explorer-mode :focus-visible { outline: 2px solid #2448ff; outline-offset: 4px; }
+
+/* High-contrast editorial navigation */
+.explorer-mode header { z-index: 5; }
+.explorer-mode .header-inner {
+  background: #ffffff;
+  color: #111111;
+  border-bottom: 2px solid #111111;
+  min-height: 76px;
+  padding-block: 12px;
+}
+.explorer-mode .identity { color: #111111; font: 400 .7rem/1.3 var(--mono); }
+.explorer-mode .signature {
+  border-right: 2px solid #111111;
+  font: 800 2.5rem/.82 var(--display);
+  letter-spacing: -.05em;
+  color: #111111;
+}
+.explorer-mode .desktop-nav { align-items: center; }
+.explorer-mode .desktop-nav button {
+  color: #111111;
+  font: 500 .7rem/1.25 var(--mono);
+  text-transform: uppercase;
+}
+.explorer-mode nav button::after { background: #2448ff; }
+.explorer-mode .desktop-nav button:hover { color: #2448ff; }
+.explorer-mode .mode-link {
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  font: 800 1.22rem/1 var(--display);
+  letter-spacing: .035em;
+  padding: 11px 18px;
+  text-transform: uppercase;
+}
+.explorer-mode .mode-link:hover,
+.explorer-mode .mode-link:focus-visible { background: #2448ff; border-color: #2448ff; color: #ffffff; }
+.explorer-mode .menu-toggle { color: #111111; }
+.explorer-mode .menu-lines { border-color: #2448ff; }
+
+/* Keep image coordinates intact. The photo remains the immersive centerpiece. */
+.explorer-mode main { background: #111111; }
+.explorer-mode .viewport::after {
+  background: linear-gradient(to top, rgb(0 0 0 / .92) 0%, rgb(0 0 0 / .55) 38%, transparent 100%);
+}
+.explorer-mode .hotspot { --point: #2448ff; }
+.explorer-mode .hotspot.secret { --point: #ffffff; }
+.explorer-mode .marker {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 12px #000b, 0 0 0 2px #1115;
+}
+.explorer-mode .hotspot.secret .marker { border-color: #111111; box-shadow: 0 1px 12px #000b, 0 0 0 2px #fff6; }
+.explorer-mode .tag {
+  background: #ffffff;
+  color: #111111;
+  border: 0;
+  border-left: 5px solid #2448ff;
+  box-shadow: 6px 6px 0 #11111199;
+  font: 500 .7rem/1.35 var(--mono);
+}
+.explorer-mode .hotspot.secret .tag { border-left-color: #111111; }
+
+/* Editorial title: raw typography and a single confident blue accent. */
+.explorer-mode .editorial {
+  bottom: 28px;
+  align-items: end;
+  gap: clamp(20px, 4vw, 72px);
+}
+.explorer-mode .intro { max-width: min(70%, 1000px); color: #ffffff; text-shadow: 0 2px 12px #000b; }
+.explorer-mode .intro::before {
+  content: "YOUNES ATEMANI / PORTFOLIO";
+  display: block;
+  margin-bottom: clamp(10px, 1.4vw, 20px);
+  color: #ffffff;
+  font: 500 .68rem/1.3 var(--mono);
+  letter-spacing: .045em;
+}
+.explorer-mode .intro h1 {
+  font: 800 clamp(3.2rem, 6.3vw, 7.3rem)/.82 var(--display);
+  letter-spacing: -.048em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.explorer-mode .intro h1 span {
+  display: table;
+  margin-top: 11px;
+  padding: 5px 10px 7px;
+  background: #2448ff;
+  color: #ffffff;
+  font: 800 clamp(2.15rem, 4.2vw, 5rem)/.89 var(--display);
+  letter-spacing: -.02em;
+  white-space: nowrap;
+  transform: rotate(-1deg);
+  text-shadow: none;
+}
+.explorer-mode .intro p {
+  max-width: 60ch;
+  margin-top: 20px;
+  color: #f1f1f1;
+  font: 400 clamp(.75rem, .9vw, .91rem)/1.6 var(--mono);
+}
+.explorer-mode .explore { color: #ffffff; }
+.explorer-mode .explore-hint { color: #ffffff; font-size: .65rem; }
+.explorer-mode .index-button {
+  min-height: 49px;
+  padding: 11px 19px;
+  color: #111111;
+  background: #ffffff;
+  border: 0;
+  font: 800 1.65rem/1 var(--display);
+  text-transform: uppercase;
+  transition: background .16s ease, color .16s ease;
+}
+.explorer-mode .index-button:hover { color: #ffffff; background: #2448ff; }
+.explorer-mode .count { color: #ffffff; }
+.explorer-mode .count b { color: #ffffff; font-weight: 700; }
+.explorer-mode .interaction-legend { color: #ffffff; }
+.explorer-mode .legend-dot { border: 2px solid #ffffff; background: #2448ff; box-shadow: none; }
+.explorer-mode .legend-dot.secret-dot { background: #ffffff; border-color: #111111; }
+
+/* Opened folders now feel like pages in the same white/black/blue editorial system. */
+.explorer-mode dialog {
+  border: 0;
+  border-top: 9px solid #2448ff;
+  color: #111111;
+  background: #ffffff;
+  box-shadow: -20px 0 70px #0008;
+  scrollbar-color: #2448ff #eeeeee;
+}
+.explorer-mode dialog::backdrop { background: #000b; }
+.explorer-mode .panel-bar {
+  background: #ffffff;
+  color: #111111;
+  border-bottom: 2px solid #111111;
+}
+.explorer-mode .mono { color: #2448ff; }
+.explorer-mode .panel-origin { color: #62656c; border-left-color: #11111150; }
+.explorer-mode .close { color: #111111; }
+.explorer-mode .close:hover { color: #2448ff; }
+.explorer-mode .panel-content h2 { color: #111111; }
+.explorer-mode .panel-content p,
+.explorer-mode .panel-content dd { color: #333333; }
+.explorer-mode .panel-content .lede { border-bottom: 2px solid #111111; color: #111111; }
+.explorer-mode .project-entry,
+.explorer-mode .books li,
+.explorer-mode .choices button,
+.explorer-mode .directory button,
+.explorer-mode dl div,
+.explorer-mode .projects li { border-bottom: 1px solid #11111155; color: #111111; }
+.explorer-mode .project-entry-text strong,
+.explorer-mode .projects strong,
+.explorer-mode dt { color: #111111; }
+.explorer-mode .project-entry-text small,
+.explorer-mode .project-arrow,
+.explorer-mode .entry-number { color: #2448ff; }
+.explorer-mode .project-entry-text > span,
+.explorer-mode .directory small,
+.explorer-mode .books span { color: #4b4b4b; }
+.explorer-mode .project-entry:hover strong,
+.explorer-mode .project-entry:focus-visible strong,
+.explorer-mode .choices button:hover,
+.explorer-mode .directory button:hover { color: #2448ff; }
+.explorer-mode .monogram { background: #111111; color: #ffffff; }
+.explorer-mode .mark-1, .explorer-mode .mark-3 { background: #2448ff; color: #ffffff; }
+.explorer-mode .case-eyebrow,
+.explorer-mode .case-eyebrow span { color: #2448ff !important; }
+.explorer-mode .case-section { border-bottom: 2px solid #111111; }
+.explorer-mode .case-section h3 { color: #111111; }
+.explorer-mode .case-metrics { background: #111111; border: none; }
+.explorer-mode .case-metrics > div { background: #ffffff; }
+.explorer-mode .case-metrics strong { color: #2448ff; }
+.explorer-mode .case-metrics small { color: #111111; }
+.explorer-mode .practice-proof {
+  border-left: 0;
+  background: #2448ff;
+  color: #ffffff !important;
+  padding: 20px;
+}
+.explorer-mode .text-link { color: #111111; }
+.explorer-mode .text-link:hover { color: #2448ff; }
+.explorer-mode .primary { color: #ffffff; border-color: #2448ff; background: #2448ff; }
+.explorer-mode .primary::after { display: none; }
+.explorer-mode .primary:hover { color: #ffffff; border-color: #111111; background: #111111; }
+.explorer-mode .mobile-directory button { color: #111111; border-bottom: 2px solid #111111; }
+.explorer-mode .mobile-directory button:hover { color: #2448ff; }
+.explorer-mode .postcard-mark { border-color: #111111; }
+.explorer-mode .postcard-mark::after { border-color: #2448ff; }
+
+/* White easter egg panels contrast with a deep blue header — no brown accents. */
+.explorer-mode .secret-panel { border-top-color: #111111; }
+.explorer-mode .secret-panel .panel-bar { background: #2448ff; color: #ffffff; border-bottom: 0; }
+.explorer-mode .secret-panel .mono,
+.explorer-mode .secret-panel .close { color: #ffffff; }
+.explorer-mode .secret-panel .close:hover { color: #111111; }
+.explorer-mode .personal-note p { color: #111111; }
+
+@media (max-width: 1000px) and (min-aspect-ratio: 6/5) {
+  .explorer-mode .intro h1 { font-size: clamp(2.8rem, 5vw, 4.6rem); }
+  .explorer-mode .intro h1 span { font-size: clamp(1.7rem, 3.4vw, 3rem); }
+}
+
+@media (max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px) {
+  .explorer-mode .header-inner { min-height: 64px; height: 64px; }
+  .explorer-mode .signature { font-size: 1.95rem; }
+  .explorer-mode main { background: #ffffff; }
+  .explorer-mode .editorial {
+    position: relative;
+    inset: auto;
+    padding: 27px var(--edge) max(25px, env(safe-area-inset-bottom));
+    background: #ffffff;
+    color: #111111;
+    gap: 25px;
+  }
+  .explorer-mode .intro { max-width: none; color: #111111; text-shadow: none; }
+  .explorer-mode .intro::before {
+    content: "PORTFOLIO / MODE EXPLORER";
+    color: #2448ff;
+    font-size: .62rem;
+    margin-bottom: 13px;
+  }
+  .explorer-mode .intro h1 { font-size: clamp(3rem, 10vw, 5.2rem); color: #111111; line-height: .83; }
+  .explorer-mode .intro h1 span { font-size: clamp(1.85rem, 6.5vw, 3.6rem); margin-top: 12px; padding: 7px 10px; color: #ffffff; }
+  .explorer-mode .intro p { color: #111111; max-width: 48ch; font-size: .76rem; line-height: 1.55; }
+  .explorer-mode .intro::after { content: ""; display: block; width: 100%; height: 3px; margin-top: 22px; background: #111111; }
+  .explorer-mode .explore { color: #111111; padding-bottom: 0; gap: 14px; }
+  .explorer-mode .index-button { background: #111111; color: #ffffff; padding: 12px 18px; font-size: 1.4rem; }
+  .explorer-mode .index-button:hover { background: #2448ff; color: #ffffff; }
+  .explorer-mode .count { color: #111111; font-size: .65rem; }
+  .explorer-mode .count b { color: #2448ff; }
+  .explorer-mode .interaction-legend {
+    background: transparent;
+    color: #111111;
+    padding: 0;
+    font-size: .62rem;
+  }
+  .explorer-mode .legend-dot { border-color: #111111; }
+  .explorer-mode .legend-dot.secret-dot { border-color: #111111; }
+  .explorer-mode .swipe-hint { color: #111111; background: #ffffff; border-left: 4px solid #2448ff; }
+  .explorer-mode dialog { border-top-width: 7px; }
+  .explorer-mode .tag { box-shadow: 4px 4px 0 #11111199; }
+}
+
+@media (max-width: 400px) {
+  .explorer-mode .intro h1 { font-size: 11vw; }
+  .explorer-mode .intro h1 span { font-size: 6.55vw; }
+  .explorer-mode .interaction-legend { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explorer-mode .hotspot .marker::after { animation: none; }
+}

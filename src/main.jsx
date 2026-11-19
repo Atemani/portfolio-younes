@@ -8,6 +8,7 @@ import "@fontsource/barlow-condensed/latin-700.css";
 import "@fontsource/barlow-condensed/latin-800.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
 import "./style.css";
+import "./explorer-redesign.css";
 
 const sections = { projets: "Projets", competences: "Compétences", apropos: "À propos", contact: "Contact" };
 const titles = { ...Object.fromEntries(skills), ...Object.fromEntries(caseStudies.map(item => [item.id, item.name])), index: "Explorer les objets", menu: "Navigation", lectures: "Mes lectures préférées", ...Object.fromEntries(objects.map(item => [item.id, item.title])), apropos: "À propos", contact: "Contact" };
@@ -204,8 +205,8 @@ function Desk({ go, found }) {
     <span className="swipe-hint" aria-hidden="true">Glisse pour explorer le bureau</span>
     <div className="editorial">
       <div className="intro">
-        <h1>DES IDÉES. <span>DU CONCRET.</span></h1>
-        <p>Stratégie, communication, création digitale et automatisation.</p>
+        <h1>J'AIME CRÉER.<span>ENCORE PLUS APPRENDRE.</span></h1>
+        <p>Je donne vie aux idées à travers le digital, la création et la stratégie.</p>
       </div>
       <div className="explore">
         <p className="explore-hint">Les objets racontent le parcours.</p>
@@ -245,7 +246,7 @@ function App() {
       setPage(null);
     }
   }
-  return <>
+  return <div className="explorer-mode">
     <a href="#principal" className="skip">Aller au bureau</a>
     <header><div className="shell header-inner">
       <a className="identity" href="./"><span className="signature" aria-hidden="true">YA</span> Younes Atemani</a>
@@ -259,7 +260,7 @@ function App() {
       <Desk go={go} found={found} />
     </main>
     {page && <Panel page={page} go={go} close={close} found={found} />}
-  </>;
+  </div>;
 }
 
 // Deux expériences indépendantes, un socle de contenu commun.
