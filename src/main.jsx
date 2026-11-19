@@ -101,7 +101,6 @@ function PanelBody({ page, go, found }) {
     <p className="lede">Une mission, un projet ou simplement une idée à discuter ? Parlons-en.</p>
     <p>Je peux intervenir sur la communication, la création web, le contenu, la coordination digitale et l'optimisation de processus. Le plus simple est de m'expliquer ton besoin et de voir ensemble comment avancer.</p>
     <a className="primary" href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">Me retrouver sur GitHub ↗</a>
-    <p className="contact-note">Un lien direct de contact professionnel pourra être ajouté ici dès qu'une adresse ou un profil public sera confirmé.</p>
   </>;
   return null;
 }
