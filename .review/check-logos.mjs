@@ -9,7 +9,7 @@ for(const width of [1440,1920,768,390,320]){
  const section=page.locator('.cp-project-logos');
  await section.scrollIntoViewIfNeeded();
  const images=section.locator('img');
- await images.evaluateAll(els=>Promise.all(els.map(el=>el.decode())));
+ await images.evaluateAll(els=>{els.forEach(el=>el.loading='eager');return Promise.all(els.map(el=>el.decode()));});
  assert.equal(await section.locator('a,button,[role="button"]').count(),0);
  assert.equal(await section.locator('ul:not([aria-hidden]) img').count(),6);
  assert.equal(await section.locator('ul[aria-hidden="true"] img[alt=""]').count(),6);
