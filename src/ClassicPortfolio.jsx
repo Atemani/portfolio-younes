@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { caseStudies, practices, skills } from "./content.js";
+import { toolGroups } from "./tool-stack.js";
 import "./classic-portfolio.css";
 
 // Une vue autonome qui réutilise les contenus documentés du bureau interactif.
@@ -59,6 +60,7 @@ export default function ClassicPortfolio() {
         <a href="#labo">Labo créatif</a>
         <a href="#parcours">Parcours</a>
         <a href="#savoir-faire">Savoir-faire</a>
+        <a href="#outils">Outils</a>
       </nav>
       <a className="cp-switch" href="/">EXPLORER <span aria-hidden="true">↗</span></a>
     </header>
@@ -106,8 +108,24 @@ export default function ClassicPortfolio() {
         </details>)}</div>
       </section>
 
+      <section className="cp-section cp-tools" id="outils" aria-labelledby="cp-tools-title">
+        <div className="cp-section-heading"><span className="cp-numeral">05 /</span><div><p className="cp-eyebrow">MON ÉCOSYSTÈME DE TRAVAIL</p><h2 id="cp-tools-title">MES OUTILS.</h2></div></div>
+        <p className="cp-section-intro">Du développement à la production vidéo, en passant par la stratégie et l'automatisation : les outils avec lesquels je travaille ou que j'ai déjà utilisés sur mes projets.</p>
+        <div className="cp-tool-groups">{toolGroups.map(group => <section className="cp-tool-group" key={group.id} aria-labelledby={"cp-tool-" + group.id}>
+          <div className="cp-tool-heading">
+            <div><h3 id={"cp-tool-" + group.id}>{group.title}</h3><p>{group.subtitle}</p></div>
+            <span className="cp-tool-count">{String(group.tools.length).padStart(2, "0")} OUTILS</span>
+          </div>
+          <div className="cp-tool-grid">{group.tools.map(tool => <div key={tool.name} className="cp-tool-card">
+            <span className="cp-tool-logo"><img src={"/brand-logos/" + tool.icon + ".svg"} alt="" width="48" height="48" loading="lazy" decoding="async" /></span>
+            <span className="cp-tool-name">{tool.name}</span>
+          </div>)}</div>
+        </section>)}</div>
+        <p className="cp-tool-footnote">{toolGroups.reduce((total, group) => total + group.tools.length, 0)} outils répartis en quatre univers. Des usages variés selon les projets, sans prétendre à la même expertise sur chacun.</p>
+      </section>
+
       <section className="cp-contact" id="contact">
-        <p className="cp-eyebrow">05 / ET MAINTENANT ?</p>
+        <p className="cp-eyebrow">06 / ET MAINTENANT ?</p>
         <h2>ON EN PARLE ?</h2>
         <p>Une mission, une collaboration ou un projet à imaginer ? Je suis ouvert aux échanges autour du digital, de la création et de la stratégie.</p>
         <a className="cp-action" href="https://github.com/Atemani" target="_blank" rel="noopener noreferrer">RETROUVER MON PROFIL ↗</a>
