@@ -195,3 +195,13 @@ dd { margin: 8px 0 0; }
   .case-metrics > div { padding: 14px 7px; }
   .case-metrics strong { font-size: 1.65rem; }
 }
+
+/* Lien de bascule vers la version à parcourir, sans toucher aux interactions du bureau. */
+.mode-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 12px; color: var(--ink); background: var(--mustard); font: 700 1.05rem/1 var(--display); text-decoration: none; text-transform: uppercase; letter-spacing: .03em; border: 1px solid var(--mustard); transition: background .15s ease, color .15s ease; white-space: nowrap; }
+.mode-link:hover, .mode-link:focus-visible { background: var(--paper); border-color: var(--paper); }
+.mode-link-mobile { display: none; }
+.desktop-nav .mode-link-desktop { align-self: center; font-size: 1.02rem; }
+@media (max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px) {
+  .mode-link-mobile { display: inline-flex; margin-left: auto; padding: 8px 12px; }
+  .mode-link-desktop { display: none; }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import ClassicPortfolio from "./ClassicPortfolio.jsx";
 import { caseStudies, deskImage, objects, personalNotes, practices, readings, skills } from "./content.js";
 import "@fontsource/montserrat/latin-400.css";
 import "@fontsource/montserrat/latin-600.css";
@@ -248,10 +249,11 @@ function App() {
     <a href="#principal" className="skip">Aller au bureau</a>
     <header><div className="shell header-inner">
       <a className="identity" href="./"><span className="signature" aria-hidden="true">YA</span> Younes Atemani</a>
+      <a className="mode-link mode-link-mobile" href="/portfolio">Parcourir <span aria-hidden="true">↗</span></a>
       <button className="menu-toggle" aria-haspopup="dialog" aria-controls={page === "menu" ? "portfolio-panel" : undefined} aria-expanded={page === "menu"} onClick={() => go("menu")}>Menu<span className="menu-lines" aria-hidden="true"></span></button>
       <nav className="desktop-nav" aria-label="Navigation principale">{Object.entries(sections).map(([id, name]) =>
         <button className={id === "contact" ? "contact" : ""} key={id} onClick={() => go(id)}>{name}</button>
-      )}</nav>
+      )}<a className="mode-link mode-link-desktop" href="/portfolio">Parcourir <span aria-hidden="true">↗</span></a></nav>
     </div></header>
     <main id="principal" tabIndex="-1">
       <Desk go={go} found={found} />
@@ -260,4 +262,7 @@ function App() {
   </>;
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+// Deux expériences indépendantes, un socle de contenu commun.
+// Le bureau interactif reste la page d'accueil ; /portfolio est une page à défilement.
+const isClassicPortfolio = window.location.pathname.replace(/\/+$/, "") === "/portfolio";
+createRoot(document.getElementById("root")).render(isClassicPortfolio ? <ClassicPortfolio /> : <App />);
