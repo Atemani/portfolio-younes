@@ -19,6 +19,17 @@ for(const [width,height] of sizes){
  assert.equal(await page.evaluate(()=>innerWidth),width,'No mobile viewport expansion');
  await fit(page,'.cp-header,.cp-tools,.cp-tool-group,.cp-tool-heading,.cp-tool-heading h3,.cp-tool-heading > span,.cp-contact-bottom a');
  await fit(page,'.cp-main h2,.cp-main h3,.cp-dossier summary strong,.cp-skills summary strong');
+ const clippedText=await page.evaluate(()=>{
+  const walker=document.createTreeWalker(document.querySelector('.cp-main'),NodeFilter.SHOW_TEXT);
+  const bad=[];let n;
+  while(n=walker.nextNode()){
+   if(!n.textContent.trim()||n.parentElement.closest('.cp-marquee-window,.cp-project-logos-window,details:not([open]) > :not(summary)'))continue;
+   const range=document.createRange();range.selectNode(n);
+   for(const r of range.getClientRects())if(r.width&&(r.left< -1||r.right>document.documentElement.clientWidth+1))bad.push(n.textContent);
+  }
+  return bad;
+ });
+ assert.deepEqual(clippedText,[],'Visible text not clipped by page boundaries');
  for(const summary of await page.locator('.cp-dossier > summary,.cp-skills details > summary').all()){
   await summary.click();
   await fit(page,'.cp-project-detail,.cp-skill-body,.cp-kpis');
@@ -94,8 +105,16 @@ assert.ok(await pan.evaluate(e=>e.scrollLeft)>before+60,'Native finger swipe pan
 const center=await pan.evaluate(e=>(e.scrollLeft+e.clientWidth/2)/e.firstElementChild.clientWidth);
 await mobile.setViewportSize({width:844,height:390});
 await mobile.waitForTimeout(200);
-const rotated=await pan.evaluate(e=>(e.scrollLeft+e.clientWidth/2)/e.firstElementChild.clientWidth);
-assert.ok(Math.abs(center-rotated)<.12,'Orientation preserves position, subject to scroll limits');
+const rotation=await pan.evaluate(e=>({center:(e.scrollLeft+e.clientWidth/2)/e.firstElementChild.clientWidth,half:e.clientWidth/2/e.firstElementChild.clientWidth}));
+const expected=Math.max(rotation.half,Math.min(1-rotation.half,center));
+assert.ok(Math.abs(expected-rotation.center)<.005,'Orientation preserves position within actual scroll limits');
+await pan.focus();
+await mobile.keyboard.press('Tab');
+assert.equal(await mobile.evaluate(()=>document.activeElement.classList.contains('hotspot')),true);
+await mobile.keyboard.press('Enter');
+assert.equal(await mobile.locator('dialog[open]').count(),1);
+await mobile.keyboard.press('Escape');
+assert.equal(await mobile.evaluate(()=>document.activeElement.classList.contains('hotspot')),true);
 await mobile.goto('http://127.0.0.1:4173/portfolio');
 for(const selector of ['.cp-project-logos-track','.cp-marquee-track']){
  assert.equal(await mobile.locator(selector).first().evaluate(e=>getComputedStyle(e).animationPlayState),'running');
