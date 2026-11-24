@@ -21,6 +21,12 @@ const lab = [
   { no: "03", title: "Idées & prototypes", kind: "Explorations", copy: "Maquettes et propositions permettant de concrétiser une idée, même lorsqu’elle n’a pas donné lieu à un lancement commercial." }
 ];
 
+// Le mode Parcourir met les compétences prioritaires en tête sans modifier le bureau.
+const classicSkills = [
+  ...["strategie", "gestion", "youtube"].map(id => skills.find(([key]) => key === id)).filter(Boolean),
+  ...skills.filter(([id]) => !["strategie", "gestion", "youtube"].includes(id))
+];
+
 function Dossier({ item, index }) {
   return <details className="cp-dossier" id={"projet-" + item.id}>
     <summary>
@@ -76,11 +82,11 @@ export default function ClassicPortfolio() {
     return () => document.removeEventListener("pointerdown", dismiss);
   }, []);
   useEffect(() => {
-    document.title = "Younes Atemani — Projets, parcours & savoir-faire";
+    document.title = "portfolio Younes Atemani";
     // Les ancres directes restent utilisables même après le rendu React.
     const target = decodeURIComponent(window.location.hash.slice(1));
     if (target) requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView());
-    return () => { document.title = "Le bureau de Younes Atemani — Portfolio"; };
+    return () => { document.title = "portfolio Younes Atemani"; };
   }, []);
 
   return <div className="classic-portfolio" id="haut">
@@ -88,10 +94,10 @@ export default function ClassicPortfolio() {
     <header className="cp-header">
       <a className="cp-identity" href="/portfolio" aria-label="Accueil de la version à parcourir"><span>YA.</span><small>Younes Atemani</small></a>
       <nav className="cp-nav" aria-label="Navigation de la version à parcourir">
+        <a href="#savoir-faire">Compétences</a>
         <a href="#realisations">Projets</a>
         <a href="#labo">Labo</a>
         <a href="#parcours">Parcours</a>
-        <a href="#savoir-faire">Savoir-faire</a>
         <a href="#outils">Outils</a>
       </nav>
       <a className="cp-switch" href="/">EXPLORER <span aria-hidden="true">↗</span></a>
@@ -106,10 +112,10 @@ export default function ClassicPortfolio() {
         <nav className="cp-mobile-nav" aria-label="Navigation mobile de la version à parcourir" onClick={event => {
           if (event.target.closest("a")) mobileMenu.current.open = false;
         }}>
+          <a href="#savoir-faire">Compétences</a>
           <a href="#realisations">Projets</a>
           <a href="#labo">Labo</a>
           <a href="#parcours">Parcours</a>
-          <a href="#savoir-faire">Savoir-faire</a>
           <a href="#outils">Outils</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -122,16 +128,25 @@ export default function ClassicPortfolio() {
         <div className="cp-hero-stripe"><span>ENCORE PLUS</span> <em>APPRENDRE.</em></div>
         <div className="cp-hero-bottom">
           <p>Je donne vie aux idées à travers le digital, la création et la stratégie.</p>
-          <a href="#realisations">VOIR MES PROJETS <span aria-hidden="true">↓</span></a>
+          <a href="#savoir-faire">MES COMPÉTENCES <span aria-hidden="true">↓</span></a>
         </div>
         <span className="cp-hero-stamp" aria-hidden="true">Y.A / <b>2026</b></span>
+      </section>
+
+      <section className="cp-skills-section cp-block" id="savoir-faire" aria-labelledby="cp-skills-title">
+        <div className="cp-skills-heading"><span>01 / MON SAVOIR-FAIRE</span><h2 id="cp-skills-title">MES<br/><em>COMPÉTENCES.</em></h2>
+          <p>Des compétences complémentaires, entre stratégie, création, développement et nouvelles technologies. Explore chaque domaine pour en découvrir les applications.</p></div>
+        <div className="cp-skills">{classicSkills.map(([id,name],i) => <details key={id}>
+          <summary><span className="cp-no">0{i+1}</span><strong>{name}</strong><span className="cp-skill-plus" aria-hidden="true">+</span></summary>
+          <div className="cp-skill-body"><p>{practices[id]?.intro}</p><ul>{practices[id]?.steps.map(([title,copy]) => <li key={title}><b>{title}</b><span>{copy}</span></li>)}</ul></div>
+        </details>)}</div>
       </section>
 
       <ProjectLogosMarquee />
 
       <section className="cp-work cp-block" id="realisations" aria-labelledby="cp-work-title">
         <div className="cp-work-layout">
-          <div className="cp-side-label"><span>01 — EXPÉRIENCES</span><p>Ce que j'ai construit, coordonné et produit.</p></div>
+          <div className="cp-side-label"><span>02 — EXPÉRIENCES</span><p>Ce que j'ai construit, coordonné et produit.</p></div>
           <div className="cp-work-main">
             <h2 id="cp-work-title"><span>CE QUE</span> J'AI <i>FAIT.</i></h2>
             <p className="cp-work-intro">Quatre projets, quatre terrains d'expérimentation. Ouvre un dossier pour découvrir mon rôle, mes actions et ce qui en est sorti.</p>
@@ -141,7 +156,7 @@ export default function ClassicPortfolio() {
       </section>
 
       <section className="cp-lab cp-block" id="labo" aria-labelledby="cp-lab-title">
-        <span className="cp-section-index">02 / EN DEHORS DES CASES</span>
+        <span className="cp-section-index">03 / EN DEHORS DES CASES</span>
         <h2 id="cp-lab-title">CE QUE J'AI<br/><em>IMAGINÉ.</em></h2>
         <p className="cp-lab-intro">Tout ne finit pas par devenir un produit ou une mission client. Les projets d'école, les essais et les idées méritent aussi leur place.</p>
         <div className="cp-lab-list">{lab.map(item => <article key={item.no} className="cp-lab-item">
@@ -152,20 +167,11 @@ export default function ClassicPortfolio() {
       </section>
 
       <section className="cp-journey cp-block" id="parcours" aria-labelledby="cp-journey-title">
-        <div className="cp-journey-lead"><span>03 / DEPUIS 2018</span><h2 id="cp-journey-title">UN PARCOURS<br/>PAS VRAIMENT<br/><em>LINÉAIRE.</em></h2></div>
+        <div className="cp-journey-lead"><span>04 / DEPUIS 2018</span><h2 id="cp-journey-title">UN PARCOURS<br/>PAS VRAIMENT<br/><em>LINÉAIRE.</em></h2></div>
         <ol className="cp-timeline">{timeline.map((step,i) => <li key={i}>
           <span className="cp-time">{step.year}</span>
           <div><h3>{step.title}</h3><p>{step.description}</p></div>
         </li>)}</ol>
-      </section>
-
-      <section className="cp-skills-section cp-block" id="savoir-faire" aria-labelledby="cp-skills-title">
-        <div className="cp-skills-heading"><span>04 / PRESTATIONS ET SAVOIR-FAIRE</span><h2 id="cp-skills-title">JE PEUX<br/><em>FAIRE QUOI ?</em></h2>
-          <p>Des compétences qui se croisent pour faire avancer les projets. Choisis un domaine pour voir plus précisément ce que je peux réaliser.</p></div>
-        <div className="cp-skills">{skills.map(([id,name],i) => <details key={id}>
-          <summary><span className="cp-no">0{i+1}</span><strong>{name}</strong><span className="cp-skill-plus" aria-hidden="true">+</span></summary>
-          <div className="cp-skill-body"><p>{practices[id]?.intro}</p><ul>{practices[id]?.steps.map(([title,copy]) => <li key={title}><b>{title}</b><span>{copy}</span></li>)}</ul></div>
-        </details>)}</div>
       </section>
 
       <section className="cp-tools cp-block" id="outils" aria-labelledby="cp-tools-title">
