@@ -21,5 +21,14 @@ export default function ProjectLogosMarquee() {
         </ul>)}
       </div>
     </div>
+    {/* Une présentation mobile distincte évite les logos coupés sur les côtés. */}
+    <ul className="cp-project-logos-mobile" aria-label="Projets et expériences">
+      {projectLogos.map((logo, index) => <li className="cp-project-logo-mobile" key={logo.name}
+        style={{ "--logo-delay": `${index * 3.5}s` }}>
+        <img className={logo.presentation === "padded-wordmark" ? "cp-project-logo-padded" : undefined}
+          src={logo.src} alt={logo.name} width={logo.width} height={logo.height}
+          loading="lazy" decoding="async" draggable="false" />
+      </li>)}
+    </ul>
   </section>;
 }

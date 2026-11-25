@@ -98,3 +98,78 @@
   .classic-portfolio .cp-project-logos-sequence { flex: 1 1 100%; min-width: 0; flex-wrap: wrap; justify-content: center; gap: 24px 40px; padding-inline: 22px; }
   .classic-portfolio .cp-project-logos-sequence[aria-hidden="true"] { display: none; }
 }
+
+/* Mobile : 1 logo entier, centré et sans voisins coupés.
+   Le marquee original reste identique sur ordinateur. */
+.classic-portfolio .cp-project-logos-mobile { display: none; }
+@media (max-width: 600px) {
+  .classic-portfolio .cp-project-logos { padding-block: 40px; }
+  .classic-portfolio .cp-project-logos-eyebrow { margin-bottom: 15px; }
+  .classic-portfolio .cp-project-logos-intro { margin-top: 18px; }
+  .classic-portfolio .cp-project-logos-window { display: none; }
+  .classic-portfolio .cp-project-logos-mobile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 172px;
+    padding: 0;
+    margin: 28px 0 0;
+    list-style: none;
+    overflow: hidden;
+  }
+  .classic-portfolio .cp-project-logo-mobile {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: cp-project-logo-focus 21s linear infinite;
+    animation-delay: var(--logo-delay);
+  }
+  .classic-portfolio .cp-project-logo-mobile img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(76vw, 320px);
+    max-height: 145px;
+    object-fit: contain;
+    user-select: none;
+  }
+  .classic-portfolio .cp-project-logo-mobile .cp-project-logo-padded {
+    width: min(76vw, 280px);
+    height: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    object-position: center 53%;
+  }
+  /* Six logos : 3,5 secondes chacun, puis passage au suivant. */
+  @keyframes cp-project-logo-focus {
+    0%, 1% { opacity: 1; }
+    14% { opacity: 1; }
+    16.6667%, 100% { opacity: 0; }
+  }
+}
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+  .classic-portfolio .cp-project-logos-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    height: auto;
+    overflow: visible;
+    padding-inline: 18px;
+  }
+  .classic-portfolio .cp-project-logo-mobile {
+    position: static;
+    flex: 0 1 calc(50% - 12px);
+    min-width: 0;
+    opacity: 1;
+    animation: none;
+  }
+  .classic-portfolio .cp-project-logo-mobile img {
+    max-width: 100%;
+    max-height: 108px;
+  }
+}
