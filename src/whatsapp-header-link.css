@@ -1,0 +1,89 @@
+/* CTA WhatsApp partagé, assorti à l'identité éditoriale des deux modes. */
+:where(.explorer-mode, .classic-portfolio) .whatsapp-header-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 5px 13px 5px 6px;
+  border: 2px solid #128c37;
+  background: #25d366;
+  color: #0b2914 !important;
+  text-decoration: none;
+  white-space: nowrap;
+  font: 800 1.15rem/1 "Barlow Condensed",sans-serif;
+  text-transform: uppercase;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+:where(.explorer-mode, .classic-portfolio) .whatsapp-header-link:hover {
+  background: #46eb82;
+  border-color: #128c37;
+}
+:where(.explorer-mode, .classic-portfolio) .whatsapp-header-link:focus-visible {
+  outline: 2px solid #2448ff;
+  outline-offset: 3px;
+}
+:where(.explorer-mode, .classic-portfolio) .whatsapp-header-link img {
+  display: block;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+:where(.explorer-mode, .classic-portfolio) .whatsapp-header-number {
+  margin-left: 5px;
+  padding-left: 10px;
+  border-left: 1px solid #0b29144d;
+  font: 600 .7rem/1.25 "IBM Plex Mono",monospace;
+  letter-spacing: -.015em;
+}
+.explorer-mode .whatsapp-header-link.whatsapp-header-mobile { display: none; }
+
+/* Nom raccourci sur les largeurs intermédiaires pour garder les actions visibles. */
+@media (max-width: 1360px) {
+  :where(.explorer-mode, .classic-portfolio) .whatsapp-header-number { display: none; }
+}
+@media (min-width: 761px) and (max-width: 1120px) {
+  .explorer-mode .identity-name { display: none; }
+}
+@media (max-width: 1000px) {
+  .classic-portfolio .whatsapp-header-link { order: 1; }
+  .classic-portfolio .cp-switch { order: 2; }
+  .classic-portfolio .cp-mobile-menu { order: 3; }
+}
+@media (max-width: 760px), (max-aspect-ratio: 6/5), (max-width: 1000px) and (max-height: 500px) {
+  .explorer-mode .identity-name { display: none; }
+  .explorer-mode .whatsapp-header-link.whatsapp-header-mobile { display: inline-flex; }
+  :where(.explorer-mode, .classic-portfolio) .whatsapp-header-number { display: none; }
+  .explorer-mode .whatsapp-header-label { display: none; }
+  .explorer-mode .whatsapp-header-link.whatsapp-header-mobile {
+    width: 44px;
+    height: 44px;
+    padding: 4px;
+    gap: 0;
+  }
+}
+@media (max-width: 720px) {
+  .classic-portfolio .whatsapp-header-label,
+  .classic-portfolio .whatsapp-header-number { display: none; }
+  .classic-portfolio .whatsapp-header-link {
+    width: 44px;
+    height: 44px;
+    padding: 4px;
+    gap: 0;
+  }
+  .classic-portfolio .cp-identity { margin-right: auto; }
+  .classic-portfolio .cp-switch { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .classic-portfolio .cp-header { gap: 6px; padding-inline: 12px; }
+  .classic-portfolio .cp-switch { padding-inline: 9px; font-size: 1.07rem; gap: 5px; }
+  .classic-portfolio .cp-mobile-menu > summary { padding-inline: 3px; font-size: .68rem; }
+  .explorer-mode .header-inner { gap: 7px; }
+  .explorer-mode .mode-link-mobile { padding-inline: 8px; font-size: 1rem; }
+  .explorer-mode .menu-toggle { gap: 6px; font-size: .68rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(.explorer-mode, .classic-portfolio) .whatsapp-header-link { transition: none; }
+}

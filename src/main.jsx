@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ClassicPortfolio from "./ClassicPortfolio.jsx";
+import WhatsAppHeaderLink from "./WhatsAppHeaderLink.jsx";
 import { whatsappContact } from "./contact.js";
 import { caseStudies, deskImage, objects, personalNotes, practices, readings, skills } from "./content.js";
 import "@fontsource/montserrat/latin-400.css";
@@ -251,12 +252,13 @@ function App() {
   return <div className="explorer-mode">
     <a href="#principal" className="skip">Aller au bureau</a>
     <header><div className="shell header-inner">
-      <a className="identity" href="./"><span className="signature" aria-hidden="true">YA</span> Younes Atemani</a>
+      <a className="identity" href="./"><span className="signature" aria-hidden="true">YA</span><span className="identity-name">Younes Atemani</span></a>
+      <WhatsAppHeaderLink compact />
       <a className="mode-link mode-link-mobile" href="/portfolio">Parcourir <span aria-hidden="true">↗</span></a>
       <button className="menu-toggle" aria-haspopup="dialog" aria-controls={page === "menu" ? "portfolio-panel" : undefined} aria-expanded={page === "menu"} onClick={() => go("menu")}>Menu<span className="menu-lines" aria-hidden="true"></span></button>
       <nav className="desktop-nav" aria-label="Navigation principale">{Object.entries(sections).map(([id, name]) =>
         <button className={id === "contact" ? "contact" : ""} key={id} onClick={() => go(id)}>{name}</button>
-      )}<a className="mode-link mode-link-desktop" href="/portfolio">Parcourir <span aria-hidden="true">↗</span></a></nav>
+      )}<a className="mode-link mode-link-desktop" href="/portfolio">Parcourir <span aria-hidden="true">↗</span></a><WhatsAppHeaderLink /></nav>
     </div></header>
     <main id="principal" tabIndex="-1">
       <Desk go={go} found={found} />

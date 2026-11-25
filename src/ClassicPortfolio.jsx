@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { caseStudies, practices, skills } from "./content.js";
 import { toolGroups } from "./tool-stack.js";
 import { whatsappContact } from "./contact.js";
+import WhatsAppHeaderLink from "./WhatsAppHeaderLink.jsx";
 import "./classic-portfolio.css";
 import ProjectLogosMarquee from "./ProjectLogosMarquee.jsx";
 
@@ -100,6 +101,7 @@ export default function ClassicPortfolio() {
         <a href="#parcours">Parcours</a>
         <a href="#outils">Outils</a>
       </nav>
+      <WhatsAppHeaderLink />
       <a className="cp-switch" href="/">EXPLORER <span aria-hidden="true">↗</span></a>
       <details className="cp-mobile-menu" ref={mobileMenu} onKeyDown={event => {
         if (event.key === "Escape") {
